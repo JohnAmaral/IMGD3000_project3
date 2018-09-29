@@ -19,7 +19,7 @@ private:
 	int lives_count;
 
 	void kbd(const df::EventKeyboard *p_keyboard_event);
-	void move(int dx, int dy);
+	void move(float dx, float dy);
 	void step();
 	void jump();
 	void fire(df::Vector target);

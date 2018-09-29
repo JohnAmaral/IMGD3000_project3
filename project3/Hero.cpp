@@ -10,6 +10,7 @@
 #include "ResourceManager.h"
 #include "EventStep.h"
 #include "EventView.h"
+#include "GameOver.h"
 
 Hero::Hero() {
 
@@ -42,7 +43,7 @@ Hero::Hero() {
 }
 
 Hero::~Hero() {
-	
+	GameOver *p_go = new GameOver();
 }
 
 int Hero::eventHandler(const df::Event *p_e) {
@@ -96,8 +97,8 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 		lives_count--;
 		
 		// Send "view" event with lives to interested ViewObjects
-		df::EventView ev("Lives", -1, true);
-		WM.onEvent(&ev);
+		//df::EventView ev("Lives", -1, true);
+		//WM.onEvent(&ev);
 	}
 }
 
@@ -146,13 +147,13 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event) {
 	}
 	case df::Keyboard::A: { // left
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
-			move(-0.5,0);
+			move(-1.5, 0);
 		}
 		break;
 	}
 	case df::Keyboard::D: { // right
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
-			move(+0.5,0);
+			move(+1.5,0);
 		}
 		break;
 	}
@@ -171,7 +172,7 @@ void Hero::jump() {
 }
 
 // Move up and down
-void Hero::move(int dx, int dy) {
+void Hero::move(float dx, float dy) {
 
 	// See if time to move
 	if (move_countdown > 0) {
