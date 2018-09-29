@@ -6,7 +6,3 @@ project3/\.vs/project3/v15/\.suo
 *.db
 
 *.log
-
-*.vcxproj
-
-*.filters
