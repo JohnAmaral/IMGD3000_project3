@@ -182,7 +182,8 @@ void Hero::move(float dx, float dy) {
 
 	// If stays on window, allow move
 	df::Vector new_pos(getPosition().getX() + dx, getPosition().getY() + dy);
-	if ((new_pos.getY() > 3) && (new_pos.getY() < WM.getBoundary().getVertical())) {
+	if ((new_pos.getY() > 3) && (new_pos.getY() < WM.getBoundary().getVertical()) &&
+		(new_pos.getX() > 3) && (new_pos.getX() < WM.getBoundary().getHorizontal())) {
 		WM.moveObject(this, new_pos);
 	}
 }
