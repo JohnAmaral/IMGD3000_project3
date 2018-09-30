@@ -30,13 +30,16 @@ Enemy::Enemy() {
 	setType("Enemy");
 
 	// Set speed in horizontal direction.
-	setVelocity(df::Vector(-0.25, 0)); // 1 space left every 4 frames
+	setVelocity(df::Vector(0, 0)); // 1 space left every 4 frames
 
 	// Set random starting location off right side of screen.
 	moveToStart();
 
 	// Register Saucer object for Nuke Event.
 	//registerInterest(NUKE_EVENT);
+
+	// Set solidness to soft
+	setSolidness(df::SOFT);
 }
 
 // Event handler for Saucer objects.
@@ -82,9 +85,6 @@ void Enemy::out() {
 
 	// Otherwise, move Saucer back to right edge of game world
 	moveToStart();
-
-	// Spawn new Saucer when player lets one go by to make the game harder.
-	new Enemy;
 }
 
 // Moves Saucer back to start (right edge).
@@ -95,20 +95,46 @@ void Enemy::moveToStart() {
 	float world_horiz = WM.getBoundary().getHorizontal(); // horizontal length of game world
 	float world_vert = WM.getBoundary().getVertical(); // vertical length of game world
 
-	// x is off right side of window
-	temp_pos.setX(world_horiz + rand() % (int)world_horiz + 3.0f); // random x coordinate off right
-																   // side (not in Game World range yet)
-	// y is in vertical range
-	temp_pos.setY(rand() % (int)(world_vert - 4) + 4.0f); // random y coordinate within Game World range
+	int rand_spawn = rand() % 100 + 1; // random value between 1 and 100
 
-	// If collision, move right slightly until empty space.
-	df::ObjectList collision_list = WM.isCollision(this, temp_pos);
-	while (!collision_list.isEmpty()) {
-		temp_pos.setX(temp_pos.getX() + 1); // set temp_pos to be 1 space to the right of previous location
-		collision_list = WM.isCollision(this, temp_pos); // keep track of position in list
+	if (rand_spawn <= 50) {
+
+		// Set enemy velocity
+		setVelocity(df::Vector(-0.25, 0)); // 1 space left every 4 frames
+
+		// x is off right side of window
+		temp_pos.setX(world_horiz + rand() % (int)world_horiz + 3.0f); // random x coordinate off right
+																	   // side (not in Game World range yet)
+		// y is in vertical range
+		temp_pos.setY(rand() % (int)(world_vert - 4) + 4.0f); // random y coordinate within Game World range
+
+		// If collision, move right slightly until empty space.
+		df::ObjectList collision_list = WM.isCollision(this, temp_pos);
+		while (!collision_list.isEmpty()) {
+			temp_pos.setX(temp_pos.getX() + 1); // set temp_pos to be 1 space to the right of previous location
+			collision_list = WM.isCollision(this, temp_pos); // keep track of position in list
+		}
+	}
+	else if (rand_spawn > 50) {
+
+		// Set enemy velocity
+		setVelocity(df::Vector(+0.25, 0)); // 1 space left every 4 frames
+
+		// x is off left side of window
+		temp_pos.setX(0 - rand() % (int)world_horiz + 3.0f); // random x coordinate off right
+																	   // side (not in Game World range yet)
+		// y is in vertical range
+		temp_pos.setY(rand() % (int)(world_vert - 4) + 4.0f); // random y coordinate within Game World range
+
+		// If collision, move right slightly until empty space.
+		df::ObjectList collision_list = WM.isCollision(this, temp_pos);
+		while (!collision_list.isEmpty()) {
+			temp_pos.setX(temp_pos.getX() - 1); // set temp_pos to be 1 space to the left of previous location
+			collision_list = WM.isCollision(this, temp_pos); // keep track of position in list
+		}
 	}
 
-	// Move Saucer to random location off right side.
+	// Move Saucer to random location off left or right side.
 	WM.moveObject(this, temp_pos);
 }
 
@@ -116,8 +142,8 @@ void Enemy::moveToStart() {
 void Enemy::hit(const df::EventCollision *p_collision_event) {
 
 	// If Saucer runs into another Saucer, ignore.
-	if ((p_collision_event->getObject1()->getType() == "Saucer") &&
-		(p_collision_event->getObject2()->getType() == "Saucer"))
+	if ((p_collision_event->getObject1()->getType() == "Enemy") &&
+		(p_collision_event->getObject2()->getType() == "Enemy"))
 		return; // if both types "Saucer"
 
 	// If Saucer runs into Bullet
@@ -133,8 +159,8 @@ void Enemy::hit(const df::EventCollision *p_collision_event) {
 	}
 
 	// If Saucer runs into Hero, mark Saucer for deletion.
-	if (((p_collision_event->getObject1()->getType()) == "Hero") ||
-		((p_collision_event->getObject2()->getType()) == "Hero")) {
+	if (((p_collision_event->getObject1()->getType()) == "Sheriff") ||
+		((p_collision_event->getObject2()->getType()) == "Sheriff")) {
 
 		WM.markForDelete(this);
 	}

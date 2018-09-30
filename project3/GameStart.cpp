@@ -75,7 +75,7 @@ void GameStart::start() {
 	new Hero();
 
 	// Spawn some saucers to shoot using a loop.
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 15; i++)
 		new Enemy();
 
 	// Make Points object - setup heads-up display

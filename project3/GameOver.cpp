@@ -53,7 +53,7 @@ GameOver::~GameOver() {
 	df::ObjectListIterator i(&object_list);
 	for (i.first(); !i.isDone(); i.next()) {
 		df::Object *p_o = i.currentObject();
-		if (p_o->getType() == "Saucer" || p_o->getType() == "ViewObject")
+		if (p_o->getType() == "Enemy" || p_o->getType() == "ViewObject")
 			WM.markForDelete(p_o); // delete Saucer and ViewObjects
 		if (p_o->getType() == "GameStart") {
 			p_o->setActive(true); // reactive GameStart object

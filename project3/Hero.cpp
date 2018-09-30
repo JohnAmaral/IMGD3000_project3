@@ -81,7 +81,9 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 	// If collides with saucers, check lives
 	// If run out, mark both objects for destruction
 	if (((p_collision_event->getObject1()->getType()) == "Drunk") ||
-		((p_collision_event->getObject2()->getType()) == "Drunk")) {
+		((p_collision_event->getObject2()->getType()) == "Drunk") ||
+		(p_collision_event->getObject1()->getType() == "Enemy") ||
+		(p_collision_event->getObject2()->getType() == "Enemy")) {
 
 		if (!lives_count) {
 			
