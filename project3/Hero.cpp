@@ -38,7 +38,7 @@ Hero::Hero() {
 	registerInterest(df::COLLISION_EVENT);
 
 	setType("Sheriff");
-	df::Vector p(WM.getBoundary().getHorizontal() / 2, WM.getBoundary().getVertical() / 2);
+	df::Vector p(WM.getBoundary().getHorizontal() / 2, WM.getBoundary().getVertical() - 3);
 	setPosition(p);
 }
 
@@ -123,6 +123,15 @@ void Hero::step() {
 	if (fire_countdown < 0) {
 		fire_countdown = 0;
 	}
+
+	if (getPosition().getY() == 12) {
+		setVelocity(df::Vector(0, 0.5));
+		jumping = false;
+	}
+
+	if (getPosition().getY() == 21 && !jumping) {
+		setVelocity(df::Vector(0, 0));
+	}
 }
 
 // Take appropriate action according to key pressed
@@ -135,27 +144,27 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event) {
 		}
 		break;
 	}
-	case df::Keyboard::W: { // up
-		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
-			move(0,-0.5);
-		}
-		break;
-	}
-	case df::Keyboard::S: { // down
-		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
-			move(0,+0.5);
-		}
-		break;
-	}
 	case df::Keyboard::A: { // left
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
-			move(-1.5, 0);
+			move(-1.5);
 		}
 		break;
 	}
 	case df::Keyboard::D: { // right
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
-			move(+1.5,0);
+			move(+1.5);
+		}
+		break;
+	}
+	case df::Keyboard::LEFTARROW: { // left
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
+			move(-1.5);
+		}
+		break;
+	}
+	case df::Keyboard::RIGHTARROW: { // right
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
+			move(+1.5);
 		}
 		break;
 	}
@@ -170,11 +179,13 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event) {
 
 // Jump up and land on ground
 void Hero::jump() {
+	setVelocity(df::Vector(0, -0.5));
+	jumping = true;
 	return;
 }
 
 // Move up and down
-void Hero::move(float dx, float dy) {
+void Hero::move(float dx) {
 
 	// See if time to move
 	if (move_countdown > 0) {
@@ -183,9 +194,9 @@ void Hero::move(float dx, float dy) {
 	move_countdown = move_slowdown;
 
 	// If stays on window, allow move
-	df::Vector new_pos(getPosition().getX() + dx, getPosition().getY() + dy);
-	if ((new_pos.getY() > 3) && (new_pos.getY() < WM.getBoundary().getVertical()) &&
-		(new_pos.getX() > 3) && (new_pos.getX() < WM.getBoundary().getHorizontal())) {
+	df::Vector new_pos(getPosition().getX() + dx, getPosition().getY());
+	if ((new_pos.getY() > 3) && (new_pos.getY() < WM.getBoundary().getVertical() - 2) &&
+		(new_pos.getX() > 0) && (new_pos.getX() < WM.getBoundary().getHorizontal())) {
 		WM.moveObject(this, new_pos);
 	}
 }
