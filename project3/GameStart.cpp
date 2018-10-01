@@ -75,7 +75,7 @@ void GameStart::start() {
 	new Hero();
 
 	// Spawn some saucers to shoot using a loop.
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < 10; i++)
 		new Enemy();
 
 	// Make Points object - setup heads-up display
@@ -83,10 +83,17 @@ void GameStart::start() {
 
 	// Create display for health count.
 	df::ViewObject *p_hc = new df::ViewObject;
-	p_hc->setLocation(df::TOP_LEFT); // top center of window
-	p_hc->setViewString("Health");
-	p_hc->setValue(3); // initially 3 hit points
-	p_hc->setColor(df::YELLOW); // yellow display
+	p_hc->setLocation(df::TOP_LEFT); // top left of window
+	p_hc->setViewString("Lives");
+	p_hc->setValue(5); // initially 6 hit points
+	p_hc->setColor(df::RED); // yellow display
+
+	// Create display for score count.
+	df::ViewObject *p_sc = new df::ViewObject;
+	p_sc->setLocation(df::TOP_RIGHT); // top right of window
+	p_sc->setViewString("Score");
+	p_sc->setValue(0); // initially 0 points
+	p_sc->setColor(df::GREEN); // green display
 
 	// Pause start music.
 	p_music->pause();

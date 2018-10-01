@@ -18,6 +18,7 @@ private:
 	int fire_countdown;
 	int lives_count;
 	bool jumping;
+	bool isMoving;
 
 	void kbd(const df::EventKeyboard *p_keyboard_event);
 	void move(float dx);

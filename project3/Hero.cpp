@@ -18,7 +18,8 @@ Hero::Hero() {
 	move_countdown = move_slowdown;
 	fire_slowdown = 15;
 	fire_countdown = fire_slowdown;
-	lives_count = 2;
+	lives_count = 5;
+	isMoving = false;
 
 	// Link to "sheriff" sprite
 	df::Sprite *p_temp_sprite;
@@ -80,13 +81,28 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 
 	// If collides with saucers, check lives
 	// If run out, mark both objects for destruction
-	if (((p_collision_event->getObject1()->getType()) == "Drunk") ||
-		((p_collision_event->getObject2()->getType()) == "Drunk") ||
+	if (/*((p_collision_event->getObject1()->getType()) == "Drunk") ||
+		((p_collision_event->getObject2()->getType()) == "Drunk") ||*/
 		(p_collision_event->getObject1()->getType() == "Enemy") ||
 		(p_collision_event->getObject2()->getType() == "Enemy")) {
 
+		/*if ((p_collision_event->getObject1()->getType()) == "Enemy") {
+			WM.markForDelete(p_collision_event->getObject1());
+		}
+		if ((p_collision_event->getObject2()->getType()) == "Enemy") {
+			WM.markForDelete(p_collision_event->getObject2());
+		}*/
+
+		// Send "view" event with lives to interested ViewObjects
+		if (isMoving) {
+			lives_count--;
+			df::EventView ev("Lives", -1, true);
+			WM.onEvent(&ev);
+			isMoving = false;
+		}
+
 		if (!lives_count) {
-			
+
 			if ((p_collision_event->getObject1()->getType()) == "Sheriff") {
 				WM.markForDelete(p_collision_event->getObject1());
 			}
@@ -96,16 +112,15 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 			}
 			return;
 		}
-		lives_count--;
-		
-		// Send "view" event with lives to interested ViewObjects
-		//df::EventView ev("Lives", -1, true);
-		//WM.onEvent(&ev);
 	}
 }
 
 // Decrease rate restriction counters
 void Hero::step() {
+
+	if (GM.getStepCount() % 2 == 0)
+		isMoving = true;
+
 	// Move countdown
 	move_countdown--;
 	if (move_countdown < 0) {
@@ -169,7 +184,7 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event) {
 		break;
 	}
 	case df::Keyboard::SPACE: {
-		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
+		if ((p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) && (getPosition().getY() == 21)) {
 			jump();
 		}
 		break;
@@ -186,6 +201,9 @@ void Hero::jump() {
 
 // Move up and down
 void Hero::move(float dx) {
+
+	// Set isMoving to true
+	isMoving = true;
 
 	// See if time to move
 	if (move_countdown > 0) {

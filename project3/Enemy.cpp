@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 #include "Enemy.h"
 #include "EventOut.h"
+#include "EventCollision.h"
 #include <stdlib.h> // Used for rand() call in moveToStart()
 //#include "Explosion.h"
 //#include "EventNuke.h"

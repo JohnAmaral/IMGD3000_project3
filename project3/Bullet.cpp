@@ -7,6 +7,7 @@
 #include "WorldManager.h"
 #include "ResourceManager.h"
 #include "EventOut.h"
+#include "EventView.h"
 
 Bullet::Bullet(df::Vector hero_pos) {
 
@@ -57,5 +58,9 @@ void Bullet::hit(const df::EventCollision *p_collision_event) {
 		(p_collision_event->getObject2()->getType() == "Enemy")) {
 		WM.markForDelete(p_collision_event->getObject1());
 		WM.markForDelete(p_collision_event->getObject2());
+
+		// Increment score by 50 points
+		df::EventView ev("Score", 50, true);
+		WM.onEvent(&ev);
 	}
 }
