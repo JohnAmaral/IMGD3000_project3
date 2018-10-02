@@ -2,7 +2,11 @@
 // Hero.h
 //
 
+#ifndef __HERO_H__
+#define __HERO_H__
+
 #include "Object.h"
+#include "Reticle.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
 #include "EventCollision.h"
@@ -21,10 +25,13 @@ private:
 	int hit_countdown;
 	bool jumping;
 
+	Reticle *p_reticle;
+
 	void kbd(const df::EventKeyboard *p_keyboard_event);
 	void move(float dx);
 	void step();
 	void jump();
+	void punch();
 	void fire(df::Vector target);
 	void mouse(const df::EventMouse *p_mouse_event);
 	void hit(const df::EventCollision *p_collision_event);
@@ -34,3 +41,5 @@ public:
 	~Hero();
 	int eventHandler(const df::Event *p_e);
 };
+
+#endif // !__HERO_H__

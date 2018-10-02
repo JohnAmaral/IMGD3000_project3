@@ -4,6 +4,7 @@
 
 #include "Hero.h"
 #include "Bullet.h"
+#include "Punch.h"
 #include "LogManager.h"
 #include "GameManager.h"
 #include "WorldManager.h"
@@ -42,10 +43,17 @@ Hero::Hero() {
 	setType("Sheriff");
 	df::Vector p(WM.getBoundary().getHorizontal() / 2, WM.getBoundary().getVertical() - 3);
 	setPosition(p);
+
+	// Create reticle for shooting
+	p_reticle = new Reticle();
+	p_reticle->draw();
 }
 
 Hero::~Hero() {
 	GameOver *p_go = new GameOver();
+
+	// Mark reticle for deletion
+	WM.markForDelete(p_reticle);
 }
 
 int Hero::eventHandler(const df::Event *p_e) {
@@ -238,12 +246,27 @@ void Hero::fire(df::Vector target) {
 	p_sound->play();
 }
 
+void Hero::punch() {
+	if (melee_countdown > 0) {
+		return;
+	}
+	melee_countdown = melee_slowdown;
+
+	Punch *p = new Punch(this);
+
+	// Play punch sound
+	/*
+	df::Sound *p_sound = RM.getSound("punch");
+	p_sound->play();
+	*/
+}
+
 void Hero::mouse(const df::EventMouse *p_mouse_event) {
 
 	// Pressed left button?
 	if ((p_mouse_event->getMouseAction() == df::CLICKED) &&
 		(p_mouse_event->getMouseButton() == df::Mouse::LEFT)) {
-		fire(p_mouse_event->getMousePosition());
+		punch();
 	}
 
 	// Pressed right button?

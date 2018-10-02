@@ -1,6 +1,9 @@
 #pragma once
 // GameStart.h
 
+#ifndef __GAME_START_H__
+#define __GAME_START_H__
+
 // Include statements.
 #include "ViewObject.h"
 #include "Music.h"
@@ -18,3 +21,5 @@ public:
 	void draw();
 	void playMusic();
 };
+
+#endif // !__GAME_START_H__

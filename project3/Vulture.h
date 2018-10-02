@@ -1,6 +1,9 @@
 #pragma once
 // Vulture.h
 
+#ifndef __VULTURE_H__
+#define __VULTURE_H__
+
 // Include statements.
 #include "Enemy.h"
 #include "EventCollision.h"
@@ -16,3 +19,5 @@ private:
 	void moveToStart();
 	void hit(const df::EventCollision *p_collision_event);
 };
+
+#endif // !__VULTURE_H__

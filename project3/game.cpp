@@ -23,9 +23,6 @@ int main(int argc, char *argv[]) {
 	// Set flush of logfile during development (when done, make false).
 	LM.setFlush(true);
 
-	// Show splash screen.
-	df::splash();
-
 	// Load game resources.
 	loadResources();
 
@@ -62,6 +59,9 @@ void loadResources(void) {
 
 	// Load game start sprite.
 	RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
+
+	// Load punch sprite
+	RM.loadSprite("sprites/punch-spr.txt", "punch");
 
 	// Load sounds
 	RM.loadSound("sounds/fire.wav", "fire");

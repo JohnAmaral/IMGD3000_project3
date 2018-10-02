@@ -1,6 +1,9 @@
 #pragma once
 // GameOver.h
 
+#ifndef __GAME_OVER_H__
+#define __GAME_OVER_H__
+
 // Include statements.
 #include "ViewObject.h"
 #include "Music.h"
@@ -18,3 +21,5 @@ public:
 	int eventHandler(const df::Event *p_e);
 	void draw();
 };
+
+#endif // !__GAME_OVER_H__

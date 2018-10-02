@@ -1,6 +1,9 @@
 #pragma once
 // Bandit.h
 
+#ifndef __BANDIT_H__
+#define __BANDIT_H__
+
 // Include statements.
 #include "Enemy.h"
 #include "EventCollision.h"
@@ -16,3 +19,5 @@ private:
 	void moveToStart();
 	void hit(const df::EventCollision *p_collision_event);
 };
+
+#endif // !__BANDIT_H__

@@ -1,6 +1,9 @@
 #pragma once
 // Enemy.h
 
+#ifndef __ENEMY_H__
+#define __ENEMY_H__
+
 // Include statements.
 #include "Object.h"
 #include "EventCollision.h"
@@ -16,3 +19,5 @@ protected:
 	virtual void moveToStart();
 	virtual void hit(const df::EventCollision *p_collision_event);
 };
+
+#endif // !__ENEMY_H__
