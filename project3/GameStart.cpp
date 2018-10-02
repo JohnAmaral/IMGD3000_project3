@@ -6,8 +6,8 @@
 #include "LogManager.h"
 #include "GameManager.h"
 #include "Hero.h"
-#include "Enemy.h"
-//#include "Points.h"
+#include "Vulture.h"
+#include "Bandit.h"
 #include "Music.h"
 
 // Constructor
@@ -74,12 +74,13 @@ void GameStart::start() {
 	// Create new Hero object.
 	new Hero();
 
-	// Spawn some saucers to shoot using a loop.
+	// Spawn some vultures to kill using loop.
 	for (int i = 0; i < 10; i++)
-		new Enemy();
+		new Vulture();
 
-	// Make Points object - setup heads-up display
-	//new Points;
+	// Spawn some bandits to kill using loop
+	for (int i = 0; i < 3; i++)
+		new Bandit();
 
 	// Create display for health count.
 	df::ViewObject *p_hc = new df::ViewObject;

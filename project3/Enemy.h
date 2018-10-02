@@ -11,8 +11,8 @@ public:
 	Enemy(); // constructor
 	int eventHandler(const df::Event *p_e);
 
-private:
+protected:
 	void out();
-	void moveToStart();
-	void hit(const df::EventCollision *p_collision_event);
+	virtual void moveToStart();
+	virtual void hit(const df::EventCollision *p_collision_event);
 };

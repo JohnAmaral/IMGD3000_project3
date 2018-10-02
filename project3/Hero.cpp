@@ -19,7 +19,8 @@ Hero::Hero() {
 	fire_slowdown = 15;
 	fire_countdown = fire_slowdown;
 	lives_count = 5;
-	isMoving = false;
+	hit_slowdown = 2;
+	hit_countdown = hit_slowdown;
 
 	// Link to "sheriff" sprite
 	df::Sprite *p_temp_sprite;
@@ -83,23 +84,19 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 	// If run out, mark both objects for destruction
 	if (/*((p_collision_event->getObject1()->getType()) == "Drunk") ||
 		((p_collision_event->getObject2()->getType()) == "Drunk") ||*/
-		(p_collision_event->getObject1()->getType() == "Enemy") ||
-		(p_collision_event->getObject2()->getType() == "Enemy")) {
+		(p_collision_event->getObject1()->getType() == "Vulture") ||
+		(p_collision_event->getObject2()->getType() == "Vulture") ||
+		(p_collision_event->getObject1()->getType() == "Bandit") ||
+		(p_collision_event->getObject2()->getType() == "Bandit")) {
 
-		/*if ((p_collision_event->getObject1()->getType()) == "Enemy") {
-			WM.markForDelete(p_collision_event->getObject1());
+		if (hit_countdown > 0) {
+			return;
 		}
-		if ((p_collision_event->getObject2()->getType()) == "Enemy") {
-			WM.markForDelete(p_collision_event->getObject2());
-		}*/
 
-		// Send "view" event with lives to interested ViewObjects
-		if (isMoving) {
-			lives_count--;
-			df::EventView ev("Lives", -1, true);
-			WM.onEvent(&ev);
-			isMoving = false;
-		}
+		hit_countdown = hit_slowdown;
+		df::EventView ev("Lives", -1, true);
+		WM.onEvent(&ev);
+		lives_count--;
 
 		if (!lives_count) {
 
@@ -117,9 +114,6 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 
 // Decrease rate restriction counters
 void Hero::step() {
-
-	if (GM.getStepCount() % 2 == 0)
-		isMoving = true;
 
 	// Move countdown
 	move_countdown--;
@@ -139,6 +133,12 @@ void Hero::step() {
 		fire_countdown = 0;
 	}
 
+	// Hit countdown
+	hit_countdown--;
+	if (hit_countdown < 0) {
+		hit_countdown = 0;
+	}
+
 	if (getPosition().getY() == 12) {
 		setVelocity(df::Vector(0, 0.5));
 		jumping = false;
@@ -156,6 +156,9 @@ void Hero::kbd(const df::EventKeyboard *p_keyboard_event) {
 	case df::Keyboard::Q: { // quit
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
 			WM.markForDelete(this);
+			df::EventView ev("Lives", -(lives_count), true);
+			WM.onEvent(&ev);
+			lives_count = 0;
 		}
 		break;
 	}
@@ -201,9 +204,6 @@ void Hero::jump() {
 
 // Move up and down
 void Hero::move(float dx) {
-
-	// Set isMoving to true
-	isMoving = true;
 
 	// See if time to move
 	if (move_countdown > 0) {

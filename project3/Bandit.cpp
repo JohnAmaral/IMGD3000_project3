@@ -1,10 +1,10 @@
-// Enemy.cpp
+// Bandit.cpp
 
 // Include statements.
 #include "LogManager.h"
 #include "WorldManager.h"
 #include "ResourceManager.h"
-#include "Enemy.h"
+#include "Bandit.h"
 #include "EventOut.h"
 #include "EventCollision.h"
 #include <stdlib.h> // Used for rand() call in moveToStart()
@@ -15,12 +15,22 @@
 //#include "EventHealth.h"
 
 // Constructor
-Enemy::Enemy() {
+Bandit::Bandit() {
+
+	// Setup "bandit" sprite.
+	df::Sprite *p_temp_sprite = RM.getSprite("bandit");
+	if (!p_temp_sprite) // if sprite not found correctly
+		LM.writeLog("Bandit::Bandit(): Warning! Sprite '%s' not found", "bandit");
+	else {
+		// Setup sprite and set animation to advance once every 4 frames
+		setSprite(p_temp_sprite);
+		setSpriteSlowdown(4);
+	}
 
 	// Set object type.
-	setType("Enemy");
+	setType("Bandit");
 
-	// Set random starting location off side of screen.
+	// Set random starting location off right side of screen.
 	moveToStart();
 
 	// Register Saucer object for Nuke Event.
@@ -31,7 +41,7 @@ Enemy::Enemy() {
 }
 
 // Event handler for Saucer objects.
-int Enemy::eventHandler(const df::Event *p_e) {
+int Bandit::eventHandler(const df::Event *p_e) {
 
 	// Recognizes out-of-bounds event
 	if (p_e->getType() == df::OUT_EVENT) {
@@ -47,25 +57,11 @@ int Enemy::eventHandler(const df::Event *p_e) {
 		return 1;
 	}
 
-	// Nuke event
-	/*if (p_e->getType() == NUKE_EVENT) {
-
-		// Create explosion
-		Explosion *p_explosion = new Explosion;
-		p_explosion->setPosition(this->getPosition());
-
-		// Mark Saucer for deletion
-		WM.markForDelete(this);
-
-		// Spawn new Saucer after this one destroyed
-		new Saucer;
-	}*/
-
-	return 0; // if not out-of-bounds, collision, or Nuke event, ignore
+	return 0;
 }
 
 // Determines if Saucer object is out of bounds.
-void Enemy::out() {
+void Bandit::out() {
 
 	// If x coordinate of Saucer is 0 or less, then out of bounds
 	if (getPosition().getX() >= 0)
@@ -76,25 +72,24 @@ void Enemy::out() {
 }
 
 // Moves Saucer back to start (right edge).
-void Enemy::moveToStart() {
+void Bandit::moveToStart() {
 
 	df::Vector temp_pos;
 
 	float world_horiz = WM.getBoundary().getHorizontal(); // horizontal length of game world
-	float world_vert = WM.getBoundary().getVertical(); // vertical length of game world
 
 	int rand_spawn = rand() % 100 + 1; // random value between 1 and 100
 
 	if (rand_spawn <= 50) {
 
-		// Set enemy velocity
+		// Set vulture velocity
 		setVelocity(df::Vector(-0.25, 0)); // 1 space left every 4 frames
 
 		// x is off right side of window
 		temp_pos.setX(world_horiz + rand() % (int)world_horiz + 3.0f); // random x coordinate off right
 																	   // side (not in Game World range yet)
-		// y is in vertical range
-		temp_pos.setY(rand() % (int)(world_vert - 4) + 4.0f); // random y coordinate within Game World range
+		// y is in always on ground with player character
+		temp_pos.setY(21); // random y coordinate within Game World range
 
 		// If collision, move right slightly until empty space.
 		df::ObjectList collision_list = WM.isCollision(this, temp_pos);
@@ -105,14 +100,14 @@ void Enemy::moveToStart() {
 	}
 	else if (rand_spawn > 50) {
 
-		// Set enemy velocity
+		// Set vulture velocity
 		setVelocity(df::Vector(+0.25, 0)); // 1 space left every 4 frames
 
 		// x is off left side of window
 		temp_pos.setX(0 - rand() % (int)world_horiz + 3.0f); // random x coordinate off right
 																	   // side (not in Game World range yet)
 		// y is in vertical range
-		temp_pos.setY(rand() % (int)(world_vert - 4) + 4.0f); // random y coordinate within Game World range
+		temp_pos.setY(21); // random y coordinate within Game World range
 
 		// If collision, move right slightly until empty space.
 		df::ObjectList collision_list = WM.isCollision(this, temp_pos);
@@ -127,12 +122,12 @@ void Enemy::moveToStart() {
 }
 
 // Hit method for collisions.
-void Enemy::hit(const df::EventCollision *p_collision_event) {
+void Bandit::hit(const df::EventCollision *p_collision_event) {
 
-	/*// If Saucer runs into another Saucer, ignore.
-	if ((p_collision_event->getObject1()->getType() == "Enemy") &&
-		(p_collision_event->getObject2()->getType() == "Enemy"))
-		return; // if both types "Saucer"*/
+	// If Vulture runs into another Vulture, ignore.
+	if ((p_collision_event->getObject1()->getType() == "Bandit") &&
+		(p_collision_event->getObject2()->getType() == "Bandit"))
+		return; // if both types "Vulture"
 
 	// If Saucer runs into Bullet
 	if ((p_collision_event->getObject1()->getType() == "Bullet") ||
@@ -143,7 +138,7 @@ void Enemy::hit(const df::EventCollision *p_collision_event) {
 		//p_explosion->setPosition(this->getPosition()); // set Explosion position to Saucer's current position
 
 		// Create new Saucer to shoot at.
-		new Enemy;
+		new Bandit;
 	}
 
 	// If Saucer runs into Hero, mark Saucer for deletion.

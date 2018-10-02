@@ -8,6 +8,7 @@
 #include "ResourceManager.h"
 #include "EventOut.h"
 #include "EventView.h"
+#include "Bandit.h"
 
 Bullet::Bullet(df::Vector hero_pos) {
 
@@ -54,13 +55,28 @@ void Bullet::out() {
 
 // If bullet hits saucer, mark saucer and bullet for deletion
 void Bullet::hit(const df::EventCollision *p_collision_event) {
-	if ((p_collision_event->getObject1()->getType() == "Enemy") ||
-		(p_collision_event->getObject2()->getType() == "Enemy")) {
+	if ((p_collision_event->getObject1()->getType() == "Vulture") ||
+		(p_collision_event->getObject2()->getType() == "Vulture")) {
 		WM.markForDelete(p_collision_event->getObject1());
 		WM.markForDelete(p_collision_event->getObject2());
 
 		// Increment score by 50 points
 		df::EventView ev("Score", 50, true);
+		WM.onEvent(&ev);
+
+		/*if (ev.getValue() == 500) {
+			for (int i = 0; i < 3; i++)
+				new Bandit();
+		}*/
+
+	}
+	if ((p_collision_event->getObject1()->getType() == "Bandit") ||
+		(p_collision_event->getObject2()->getType() == "Bandit")) {
+		WM.markForDelete(p_collision_event->getObject1());
+		WM.markForDelete(p_collision_event->getObject2());
+
+		// Increment score by 50 points
+		df::EventView ev("Score", 100, true);
 		WM.onEvent(&ev);
 	}
 }

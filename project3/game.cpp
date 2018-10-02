@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 void loadResources(void) {
 
 	// Load saucer sprite.
-	RM.loadSprite("sprites/saucer-spr.txt", "enemy");
+	RM.loadSprite("sprites/saucer-spr.txt", "vulture");
 
 	// Load ship sprite.
 	RM.loadSprite("sprites/ship-spr.txt", "sheriff");
@@ -55,7 +55,7 @@ void loadResources(void) {
 	RM.loadSprite("sprites/bullet-spr.txt", "bullet");
 
 	// Load explosion sprite.
-	RM.loadSprite("sprites/explosion-spr.txt", "explosion");
+	RM.loadSprite("sprites/explosion-spr.txt", "bandit");
 
 	// Load game over sprite.
 	RM.loadSprite("sprites/gameover-spr.txt", "gameover");
