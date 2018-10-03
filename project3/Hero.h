@@ -10,6 +10,7 @@
 #include "EventKeyboard.h"
 #include "EventMouse.h"
 #include "EventCollision.h"
+#include "ViewObject.h"
 
 class Hero : public df::Object {
 
@@ -24,6 +25,8 @@ private:
 	int hit_slowdown;
 	int hit_countdown;
 	bool jumping;
+	df::ViewObject *score;
+	df::ViewObject *lives;
 
 	Reticle *p_reticle;
 

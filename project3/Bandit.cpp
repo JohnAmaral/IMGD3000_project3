@@ -168,7 +168,7 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 			WM.markForDelete(p_collision_event->getObject2());
 
 			// Create new Saucer to shoot at.
-			new Bandit;
+			//new Bandit;
 
 			return;
 		}

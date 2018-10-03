@@ -12,6 +12,7 @@
 #include "EventStep.h"
 #include "EventView.h"
 #include "GameOver.h"
+#include "Bandit.h"
 
 Hero::Hero() {
 
@@ -22,6 +23,20 @@ Hero::Hero() {
 	lives_count = 5;
 	hit_slowdown = 2;
 	hit_countdown = hit_slowdown;
+
+	// Set score ViewObject
+	score = new df::ViewObject;
+	score->setLocation(df::TOP_RIGHT); // top right of window
+	score->setViewString("Score");
+	score->setValue(0); // initially 0 points
+	score->setColor(df::GREEN); // green display
+
+	// Create display for health count.
+	lives = new df::ViewObject;
+	lives->setLocation(df::TOP_LEFT); // top left of window
+	lives->setViewString("Lives");
+	lives->setValue(5); // initially 6 hit points
+	lives->setColor(df::RED); // yellow display
 
 	// Link to "sheriff" sprite
 	df::Sprite *p_temp_sprite;
@@ -90,9 +105,7 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 
 	// If collides with saucers, check lives
 	// If run out, mark both objects for destruction
-	if (/*((p_collision_event->getObject1()->getType()) == "Drunk") ||
-		((p_collision_event->getObject2()->getType()) == "Drunk") ||*/
-		(p_collision_event->getObject1()->getType() == "Vulture") ||
+	if ((p_collision_event->getObject1()->getType() == "Vulture") ||
 		(p_collision_event->getObject2()->getType() == "Vulture") ||
 		(p_collision_event->getObject1()->getType() == "Bandit") ||
 		(p_collision_event->getObject2()->getType() == "Bandit")) {
@@ -122,6 +135,9 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 
 // Decrease rate restriction counters
 void Hero::step() {
+
+	// Check score to add lives
+	
 
 	// Move countdown
 	move_countdown--;
@@ -244,6 +260,18 @@ void Hero::fire(df::Vector target) {
 	// Play "fire" sound
 	df::Sound *p_sound = RM.getSound("fire");
 	p_sound->play();
+
+	// Check score to start spawning Bandits
+	if ((score->getValue() % 500 == 0) && (score->getValue() != 0))
+		new Bandit();
+
+	// Check score to add extra life
+	if ((score->getValue() % 1000 == 0) && (score->getValue() != 0)) {
+		// Increment lives by 1
+		df::EventView ev("Lives", 1, true);
+		WM.onEvent(&ev);
+		lives_count++;
+	}
 }
 
 void Hero::punch() {

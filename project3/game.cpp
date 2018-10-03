@@ -52,7 +52,7 @@ void loadResources(void) {
 	RM.loadSprite("sprites/bullet-spr.txt", "bullet");
 
 	// Load explosion sprite.
-	RM.loadSprite("sprites/explosion-spr.txt", "bandit");
+	RM.loadSprite("sprites/bandit-spr.txt", "bandit");
 
 	// Load game over sprite.
 	RM.loadSprite("sprites/gameover-spr.txt", "gameover");
