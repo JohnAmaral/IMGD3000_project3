@@ -18,7 +18,7 @@ Reticle::Reticle() {
 	// Set starting location in the middle of window
 	int world_horiz = (int)WM.getBoundary().getHorizontal();
 	int world_vert = (int)WM.getBoundary().getVertical();
-	df::Vector p(world_horiz / 2, world_vert / 2);
+	df::Vector p((float)world_horiz / 2, (float)world_vert / 2);
 	setPosition(p);
 }
 

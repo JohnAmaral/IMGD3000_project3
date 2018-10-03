@@ -70,13 +70,14 @@ void Bullet::hit(const df::EventCollision *p_collision_event) {
 		}*/
 
 	}
-	if ((p_collision_event->getObject1()->getType() == "Bandit") ||
+	/*if ((p_collision_event->getObject1()->getType() == "Bandit") ||
 		(p_collision_event->getObject2()->getType() == "Bandit")) {
-		WM.markForDelete(p_collision_event->getObject1());
-		WM.markForDelete(p_collision_event->getObject2());
+
+		//WM.markForDelete(p_collision_event->getObject1());
+		//WM.markForDelete(p_collision_event->getObject2());
 
 		// Increment score by 50 points
 		df::EventView ev("Score", 100, true);
 		WM.onEvent(&ev);
-	}
+	}*/
 }

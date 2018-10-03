@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 void loadResources(void) {
 
 	// Load saucer sprite.
-	RM.loadSprite("sprites/saucer-spr.txt", "vulture");
+	RM.loadSprite("sprites/vulture-spr.txt", "vulture");
 
 	// Load ship sprite.
 	RM.loadSprite("sprites/ship-spr.txt", "sheriff");

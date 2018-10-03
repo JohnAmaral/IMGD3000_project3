@@ -13,6 +13,7 @@
 #include "EventView.h"
 //#include "Points.h"
 //#include "EventHealth.h"
+#include "EventStep.h"
 
 // Constructor
 Bandit::Bandit() {
@@ -26,6 +27,9 @@ Bandit::Bandit() {
 		setSprite(p_temp_sprite);
 		setSpriteSlowdown(4);
 	}
+
+	// Initialize attributes
+	health_count = 2;
 
 	// Set object type.
 	setType("Bandit");
@@ -131,24 +135,82 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 
 	// If Saucer runs into Bullet
 	if ((p_collision_event->getObject1()->getType() == "Bullet") ||
-		(p_collision_event->getObject2()->getType() == "Bullet")) {
+		(p_collision_event->getObject2()->getType() == "Bullet") ||
+		(p_collision_event->getObject1()->getType() == "Punch") ||
+		(p_collision_event->getObject2()->getType() == "Punch")) {
 
 		// Create an explosion.
 		//Explosion *p_explosion = new Explosion;
 		//p_explosion->setPosition(this->getPosition()); // set Explosion position to Saucer's current position
 
-		// Create new Saucer to shoot at.
-		new Bandit;
+
+		// Decrement health count by 1
+		health_count -= 1;
+
+		if (health_count <= 0) {
+
+			// Mark both for deletion and add points
+
+			if ((p_collision_event->getObject1()->getType() == "Bullet") ||
+				(p_collision_event->getObject2()->getType() == "Bullet")) {
+				// Increment score by 100 points
+				df::EventView ev("Score", 100, true);
+				WM.onEvent(&ev);
+			}
+			else if ((p_collision_event->getObject1()->getType() == "Punch") ||
+				(p_collision_event->getObject2()->getType() == "Punch")) {
+				// Increment score by 200 points
+				df::EventView ev("Score", 200, true);
+				WM.onEvent(&ev);
+			}
+
+			WM.markForDelete(p_collision_event->getObject1());
+			WM.markForDelete(p_collision_event->getObject2());
+
+			// Create new Saucer to shoot at.
+			new Bandit;
+
+			return;
+		}
+		if ((p_collision_event->getObject1()->getType() == "Bullet") ||
+			(p_collision_event->getObject1()->getType() == "Punch"))
+			WM.markForDelete(p_collision_event->getObject1());
+		else if ((p_collision_event->getObject2()->getType() == "Bullet") ||
+			(p_collision_event->getObject2()->getType() == "Punch"))
+			WM.markForDelete(p_collision_event->getObject2());
 	}
 
 	// If Saucer runs into Hero, mark Saucer for deletion.
 	if (((p_collision_event->getObject1()->getType()) == "Sheriff") ||
 		((p_collision_event->getObject2()->getType()) == "Sheriff")) {
 
-		WM.markForDelete(this);
+		health_count -= 1;
+		if (health_count <= 0) {
+			WM.markForDelete(this);
+		}
 	}
 
 	// Play "explode" sound.
 	df::Sound *p_sound = RM.getSound("explode");
 	p_sound->play();
+}
+
+// For step events
+/*void Bandit::step() {
+
+	// Health countdown
+	health_countdown--;
+	if (health_countdown < 0) {
+		health_countdown = 0;
+	}
+}*/
+
+// Get health count
+int Bandit::getHealthCount() const {
+	return health_count;
+}
+
+// Set health count
+void Bandit::setHealthCount(int new_health_count) {
+	health_count = new_health_count;
 }
