@@ -53,6 +53,19 @@ void Punch::step() {
 
 	removal_countdown--;
 	if (removal_countdown < 0) {
+
+		// Link to "sheriff gun" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("sheriff gun");
+		if (!p_temp_sprite) {
+			LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff");
+		}
+		else {
+			this_hero->setSprite(p_temp_sprite);
+			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+			this_hero->setTransparency(); // Transparent sprite
+		}
+
 		WM.markForDelete(this);
 	}
 

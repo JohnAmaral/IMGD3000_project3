@@ -1,0 +1,12 @@
+frames 1
+width 10
+height 6
+color blue
+  _|\/|_  
+   (  )   
+    \/    
+   \||/   
+    ||    
+   /  \   
+end
+eof

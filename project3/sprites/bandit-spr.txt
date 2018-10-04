@@ -10,8 +10,3 @@ color red
    /  \   
 end
 eof
-
-
-
-
-           

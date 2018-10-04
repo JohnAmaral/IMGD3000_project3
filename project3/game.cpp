@@ -45,8 +45,11 @@ void loadResources(void) {
 	// Load saucer sprite.
 	RM.loadSprite("sprites/vulture-spr.txt", "vulture");
 
-	// Load ship sprite.
-	RM.loadSprite("sprites/ship-spr.txt", "sheriff");
+	// Load sheriff-shooting sprite.
+	RM.loadSprite("sprites/sheriff-shooting-spr.txt", "sheriff gun");
+
+	// Load sheriff-standard sprite.
+	RM.loadSprite("sprites/sheriff-standard-spr.txt", "sheriff nothing");
 
 	// Load bullet sprite.
 	RM.loadSprite("sprites/bullet-spr.txt", "bullet");

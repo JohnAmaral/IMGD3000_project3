@@ -38,9 +38,9 @@ Hero::Hero() {
 	lives->setValue(5); // initially 6 hit points
 	lives->setColor(df::RED); // yellow display
 
-	// Link to "sheriff" sprite
+	// Link to "sheriff gun" sprite
 	df::Sprite *p_temp_sprite;
-	p_temp_sprite = RM.getSprite("sheriff");
+	p_temp_sprite = RM.getSprite("sheriff gun");
 	if (!p_temp_sprite) {
 		LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff");
 	}
@@ -279,6 +279,18 @@ void Hero::punch() {
 		return;
 	}
 	melee_countdown = melee_slowdown;
+
+	// Link to "sheriff nothing" sprite
+	df::Sprite *p_temp_sprite;
+	p_temp_sprite = RM.getSprite("sheriff nothing");
+	if (!p_temp_sprite) {
+		LM.writeLog("Hero::punch(): Warning! Sprite '%s' not found", "sheriff nothing");
+	}
+	else {
+		setSprite(p_temp_sprite);
+		setSpriteSlowdown(3); // 1/3 speed animation
+		setTransparency(); // Transparent sprite
+	}
 
 	Punch *p = new Punch(this);
 
