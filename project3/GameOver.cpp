@@ -12,9 +12,6 @@
 // Constructor
 GameOver::GameOver() {
 
-	// Initialize background game music.
-	g_music = RM.getMusic("game music");
-
 	// Set object type.
 	setType("GameOver");
 
@@ -36,9 +33,6 @@ GameOver::GameOver() {
 
 	// Register for step event.
 	registerInterest(df::STEP_EVENT);
-
-	// Pause background game music.
-	g_music->stop();
 
 	// Play "game over" sound.
 	df::Sound *p_sound = RM.getSound("game over");

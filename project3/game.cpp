@@ -3,6 +3,9 @@
 /* CREDIT FOR MUSIC AND SOUNDS
  * title-music.wav: limetoe, May 15, 2014, from freesound.org
  * vulture-hit.wav: markb258, August 29, 2014, from freesound.org
+ * bandit-hit.wav: AlineAudio, January 28, 2018, from freesound.org
+ * bandit-death.wav: AlineAudio, January 28, 2018, from freesound.org
+ * gunshot.wav: michorvath, May 6, 2018, from freesound.org
 */
 
 // Include statements.
@@ -72,16 +75,14 @@ void loadResources(void) {
 	RM.loadSprite("sprites/punch-spr.txt", "punch");
 
 	// Load sounds
-	RM.loadSound("sounds/fire.wav", "fire");
-	RM.loadSound("sounds/explode.wav", "explode");
 	RM.loadSound("sounds/nuke.wav", "nuke");
-	RM.loadSound("sounds/game-over.wav", "game over");
+	RM.loadSound("sounds/game-over-sound.wav", "game over");
 	RM.loadSound("sounds/vulture-hit.wav", "vulture death");
 	RM.loadSound("sounds/bandit-first-hit.wav", "bandit hit");
 	RM.loadSound("sounds/bandit-death.wav", "bandit death");
+	RM.loadSound("sounds/gunshot.wav", "fire");
 
 	// Load music tracks
-	RM.loadMusic("sounds/stargaze.wav", "game music");
 	RM.loadMusic("sounds/title-music.wav", "title music");
 }
 

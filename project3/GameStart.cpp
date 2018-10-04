@@ -34,9 +34,6 @@ GameStart::GameStart() {
 	// Play start music.
 	t_music = RM.getMusic("title music");
 	playMusic();
-
-	// Initialize background music, but do not play yet.
-	g_music = RM.getMusic("game music");
 }
 
 // Play start music.
@@ -100,9 +97,6 @@ void GameStart::start() {
 
 	// Pause start music.
 	t_music->stop();
-
-	// Play game music.
-	g_music->play();
 
 	// When game starts, become inactive.
 	setActive(false);
