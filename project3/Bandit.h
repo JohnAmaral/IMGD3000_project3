@@ -14,11 +14,8 @@ public:
 	Bandit(); // constructor
 	int eventHandler(const df::Event *p_e);
 
-	int getHealthCount() const;
-	void setHealthCount(int new_health_count);
-
 private:
-	int health_count;
+	int health_count; // keep track of bandit health (can be hit twice)
 
 	void out();
 	void moveToStart();

@@ -24,6 +24,10 @@ Hero::Hero() {
 	hit_slowdown = 2;
 	hit_countdown = hit_slowdown;
 
+	bandit_score_to_reach = 500;
+	num_bandits = 0;
+	lives_score_to_reach = 1000;
+
 	// Set score ViewObject
 	score = new df::ViewObject;
 	score->setLocation(df::TOP_RIGHT); // top right of window
@@ -103,7 +107,7 @@ int Hero::eventHandler(const df::Event *p_e) {
 
 void Hero::hit(const df::EventCollision *p_collision_event) {
 
-	// If collides with saucers, check lives
+	// If collides with Vultures or Bandits, check lives
 	// If run out, mark both objects for destruction
 	if ((p_collision_event->getObject1()->getType() == "Vulture") ||
 		(p_collision_event->getObject2()->getType() == "Vulture") ||
@@ -134,10 +138,7 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 }
 
 // Decrease rate restriction counters
-void Hero::step() {
-
-	// Check score to add lives
-	
+void Hero::step() {	
 
 	// Move countdown
 	move_countdown--;
@@ -163,11 +164,13 @@ void Hero::step() {
 		hit_countdown = 0;
 	}
 
+	// If at peak height of jumping, move back down to ground
 	if (getPosition().getY() == 12) {
 		setVelocity(df::Vector(0, 0.5));
 		jumping = false;
 	}
 
+	// If starting jump, move up
 	if (getPosition().getY() == 21 && !jumping) {
 		setVelocity(df::Vector(0, 0));
 	}
@@ -262,15 +265,22 @@ void Hero::fire(df::Vector target) {
 	p_sound->play();
 
 	// Check score to start spawning Bandits
-	if ((score->getValue() % 500 == 0) && (score->getValue() != 0))
-		new Bandit();
+	if (score->getValue() >= bandit_score_to_reach) {
+		for (int i = 0; i < (num_bandits + 1); i++) {
+			new Bandit();
+		}
+		bandit_score_to_reach += 500;
+		num_bandits += 1;
+	}
 
 	// Check score to add extra life
-	if ((score->getValue() % 1000 == 0) && (score->getValue() != 0)) {
+	if (score->getValue() >= lives_score_to_reach) {
 		// Increment lives by 1
 		df::EventView ev("Lives", 1, true);
 		WM.onEvent(&ev);
 		lives_count++;
+
+		lives_score_to_reach += 1000;
 	}
 }
 

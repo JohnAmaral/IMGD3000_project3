@@ -83,20 +83,5 @@ void Punch::hit(const df::EventCollision *p_collision_event) {
 		df::EventView ev("Score", 100, true);
 		WM.onEvent(&ev);
 
-		/*if (ev.getValue() == 500) {
-			for (int i = 0; i < 3; i++)
-				new Bandit();
-		}*/
-
 	}
-	/*if ((p_collision_event->getObject1()->getType() == "Bandit") ||
-		(p_collision_event->getObject2()->getType() == "Bandit")) {
-
-		//WM.markForDelete(p_collision_event->getObject1());
-		//WM.markForDelete(p_collision_event->getObject2());
-
-		// Increment score by 50 points
-		df::EventView ev("Score", 200, true);
-		WM.onEvent(&ev);
-	}*/
 }

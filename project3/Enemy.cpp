@@ -8,11 +8,7 @@
 #include "EventOut.h"
 #include "EventCollision.h"
 #include <stdlib.h> // Used for rand() call in moveToStart()
-//#include "Explosion.h"
-//#include "EventNuke.h"
 #include "EventView.h"
-//#include "Points.h"
-//#include "EventHealth.h"
 
 // Constructor
 Enemy::Enemy() {
@@ -23,14 +19,11 @@ Enemy::Enemy() {
 	// Set random starting location off side of screen.
 	moveToStart();
 
-	// Register Saucer object for Nuke Event.
-	//registerInterest(NUKE_EVENT);
-
 	// Set solidness to soft
 	setSolidness(df::SOFT);
 }
 
-// Event handler for Saucer objects.
+// Event handler for Enemy objects.
 int Enemy::eventHandler(const df::Event *p_e) {
 
 	// Recognizes out-of-bounds event
@@ -43,39 +36,25 @@ int Enemy::eventHandler(const df::Event *p_e) {
 	if (p_e->getType() == df::COLLISION_EVENT) {
 		const df::EventCollision *p_collision_event =
 			dynamic_cast <const df::EventCollision *> (p_e);
-		hit(p_collision_event); // If Saucer collides with another object (for explosions)
+		hit(p_collision_event); // If Enemy collides with another object (for explosions)
 		return 1;
 	}
-
-	// Nuke event
-	/*if (p_e->getType() == NUKE_EVENT) {
-
-		// Create explosion
-		Explosion *p_explosion = new Explosion;
-		p_explosion->setPosition(this->getPosition());
-
-		// Mark Saucer for deletion
-		WM.markForDelete(this);
-
-		// Spawn new Saucer after this one destroyed
-		new Saucer;
-	}*/
 
 	return 0; // if not out-of-bounds, collision, or Nuke event, ignore
 }
 
-// Determines if Saucer object is out of bounds.
+// Determines if Enemy object is out of bounds.
 void Enemy::out() {
 
-	// If x coordinate of Saucer is 0 or less, then out of bounds
+	// If x coordinate of Enemy is 0 or less, then out of bounds
 	if (getPosition().getX() >= 0)
 		return;
 
-	// Otherwise, move Saucer back to right edge of game world
+	// Otherwise, move Enemy back to right edge of game world
 	moveToStart();
 }
 
-// Moves Saucer back to start (right edge).
+// Moves Enemy back to start (right edge).
 void Enemy::moveToStart() {
 
 	df::Vector temp_pos;
@@ -88,7 +67,7 @@ void Enemy::moveToStart() {
 	if (rand_spawn <= 50) {
 
 		// Set enemy velocity
-		setVelocity(df::Vector(-0.25, 0)); // 1 space left every 4 frames
+		setVelocity(df::Vector(-0.25, 0)); // 1 space right every 4 frames
 
 		// x is off right side of window
 		temp_pos.setX(world_horiz + rand() % (int)world_horiz + 3.0f); // random x coordinate off right
@@ -122,38 +101,30 @@ void Enemy::moveToStart() {
 		}
 	}
 
-	// Move Saucer to random location off left or right side.
+	// Move Enemy to random location off left or right side.
 	WM.moveObject(this, temp_pos);
 }
 
 // Hit method for collisions.
 void Enemy::hit(const df::EventCollision *p_collision_event) {
 
-	/*// If Saucer runs into another Saucer, ignore.
+	// If Enemy runs into another Enemy, ignore.
 	if ((p_collision_event->getObject1()->getType() == "Enemy") &&
 		(p_collision_event->getObject2()->getType() == "Enemy"))
-		return; // if both types "Saucer"*/
+		return; // if both types "Enemy"
 
-	// If Saucer runs into Bullet
+	// If Enemy runs into Bullet
 	if ((p_collision_event->getObject1()->getType() == "Bullet") ||
 		(p_collision_event->getObject2()->getType() == "Bullet")) {
 
-		// Create an explosion.
-		//Explosion *p_explosion = new Explosion;
-		//p_explosion->setPosition(this->getPosition()); // set Explosion position to Saucer's current position
-
-		// Create new Saucer to shoot at.
-		new Enemy;
+		// Create new Enemy to shoot at.
+		//new Enemy;
 	}
 
-	// If Saucer runs into Hero, mark Saucer for deletion.
+	// If Enemy runs into Hero, mark Enemy for deletion.
 	if (((p_collision_event->getObject1()->getType()) == "Sheriff") ||
 		((p_collision_event->getObject2()->getType()) == "Sheriff")) {
 
 		WM.markForDelete(this);
 	}
-
-	// Play "explode" sound.
-	df::Sound *p_sound = RM.getSound("explode");
-	p_sound->play();
 }

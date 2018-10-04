@@ -42,7 +42,7 @@ GameOver::GameOver() {
 // Destructor - when object exits, indicate game over.
 GameOver::~GameOver() {
 
-	// Remove Saucer and ViewObjects, re-activate GameStart.
+	// Remove Vultures, Bandits, and ViewObjects, re-activate GameStart.
 	df::ObjectList object_list = WM.getAllObjects(true);
 	df::ObjectListIterator i(&object_list);
 	for (i.first(); !i.isDone(); i.next()) {

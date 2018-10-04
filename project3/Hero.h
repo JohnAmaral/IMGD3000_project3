@@ -15,27 +15,32 @@
 class Hero : public df::Object {
 
 private:
-	int move_slowdown;
+	int move_slowdown; // moving
 	int move_countdown;
-	int melee_slowdown;
+	int melee_slowdown; // melee attack
 	int melee_countdown;
-	int fire_slowdown;
+	int fire_slowdown; // ranged attack
 	int fire_countdown;
-	int lives_count;
-	int hit_slowdown;
+	int lives_count; // number of lives
+	int hit_slowdown; // getting hit
 	int hit_countdown;
-	bool jumping;
-	df::ViewObject *score;
-	df::ViewObject *lives;
+	int bandit_score_to_reach; // keeps track of every 500 points earned
+	int num_bandits; // number of bandits to spawn with every 500 points
+	int lives_score_to_reach; // keeps track of every 1000 points earned
 
-	Reticle *p_reticle;
+	bool jumping; // is Hero jumping currently
+
+	df::ViewObject *score; // ViewObject for keeping score
+	df::ViewObject *lives; // ViewObject for lives count
+
+	Reticle *p_reticle; // reticle for shooting
 
 	void kbd(const df::EventKeyboard *p_keyboard_event);
 	void move(float dx);
 	void step();
 	void jump();
-	void punch();
-	void fire(df::Vector target);
+	void punch(); // melee attack
+	void fire(df::Vector target); // ranged attack
 	void mouse(const df::EventMouse *p_mouse_event);
 	void hit(const df::EventCollision *p_collision_event);
 

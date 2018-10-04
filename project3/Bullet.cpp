@@ -53,10 +53,13 @@ void Bullet::out() {
 	WM.markForDelete(this);
 }
 
-// If bullet hits saucer, mark saucer and bullet for deletion
+// If bullet hits Vulture, mark saucer and bullet for deletion
 void Bullet::hit(const df::EventCollision *p_collision_event) {
+	
+	// If Bullet hits Vulture
 	if ((p_collision_event->getObject1()->getType() == "Vulture") ||
 		(p_collision_event->getObject2()->getType() == "Vulture")) {
+
 		WM.markForDelete(p_collision_event->getObject1());
 		WM.markForDelete(p_collision_event->getObject2());
 
@@ -64,20 +67,5 @@ void Bullet::hit(const df::EventCollision *p_collision_event) {
 		df::EventView ev("Score", 50, true);
 		WM.onEvent(&ev);
 
-		/*if (ev.getValue() == 500) {
-			for (int i = 0; i < 3; i++)
-				new Bandit();
-		}*/
-
 	}
-	/*if ((p_collision_event->getObject1()->getType() == "Bandit") ||
-		(p_collision_event->getObject2()->getType() == "Bandit")) {
-
-		//WM.markForDelete(p_collision_event->getObject1());
-		//WM.markForDelete(p_collision_event->getObject2());
-
-		// Increment score by 50 points
-		df::EventView ev("Score", 100, true);
-		WM.onEvent(&ev);
-	}*/
 }

@@ -7,12 +7,7 @@
 #include "Vulture.h"
 #include "EventOut.h"
 #include "EventCollision.h"
-#include <stdlib.h> // Used for rand() call in moveToStart()
-//#include "Explosion.h"
-//#include "EventNuke.h"
 #include "EventView.h"
-//#include "Points.h"
-//#include "EventHealth.h"
 
 // Constructor
 Vulture::Vulture() {
@@ -33,14 +28,11 @@ Vulture::Vulture() {
 	// Set random starting location off right side of screen.
 	moveToStart();
 
-	// Register Saucer object for Nuke Event.
-	//registerInterest(NUKE_EVENT);
-
 	// Set solidness to soft
 	setSolidness(df::SOFT);
 }
 
-// Event handler for Saucer objects.
+// Event handler for Vulture objects.
 int Vulture::eventHandler(const df::Event *p_e) {
 
 	// Recognizes out-of-bounds event
@@ -53,25 +45,25 @@ int Vulture::eventHandler(const df::Event *p_e) {
 	if (p_e->getType() == df::COLLISION_EVENT) {
 		const df::EventCollision *p_collision_event =
 			dynamic_cast <const df::EventCollision *> (p_e);
-		hit(p_collision_event); // If Saucer collides with another object (for explosions)
+		hit(p_collision_event); // If Vulture collides with another object (for explosions)
 		return 1;
 	}
 
 	return 0;
 }
 
-// Determines if Saucer object is out of bounds.
+// Determines if Vulture object is out of bounds.
 void Vulture::out() {
 
-	// If x coordinate of Saucer is 0 or less, then out of bounds
+	// If x coordinate of Vulture is 0 or less, then out of bounds
 	if (getPosition().getX() >= 0)
 		return;
 
-	// Otherwise, move Saucer back to right edge of game world
+	// Otherwise, move Vulture back to right edge of game world
 	moveToStart();
 }
 
-// Moves Saucer back to start (right edge).
+// Moves Vulture back to start (right edge).
 void Vulture::moveToStart() {
 
 	df::Vector temp_pos;
@@ -118,7 +110,7 @@ void Vulture::moveToStart() {
 		}
 	}
 
-	// Move Saucer to random location off left or right side.
+	// Move Vulture to random location off left or right side.
 	WM.moveObject(this, temp_pos);
 }
 
@@ -130,26 +122,22 @@ void Vulture::hit(const df::EventCollision *p_collision_event) {
 		(p_collision_event->getObject2()->getType() == "Vulture"))
 		return; // if both types "Vulture"
 
-	// If Saucer runs into Bullet
+	// If Vulture runs into Bullet
 	if ((p_collision_event->getObject1()->getType() == "Bullet") ||
 		(p_collision_event->getObject2()->getType() == "Bullet")) {
 
-		// Create an explosion.
-		//Explosion *p_explosion = new Explosion;
-		//p_explosion->setPosition(this->getPosition()); // set Explosion position to Saucer's current position
-
-		// Create new Saucer to shoot at.
+		// Create new Vulture to shoot at.
 		new Vulture;
 	}
 
-	// If Saucer runs into Hero, mark Saucer for deletion.
+	// If Vulture runs into Hero, mark Vulture for deletion.
 	if (((p_collision_event->getObject1()->getType()) == "Sheriff") ||
 		((p_collision_event->getObject2()->getType()) == "Sheriff")) {
 
 		WM.markForDelete(this);
 	}
 
-	// Play "explode" sound.
+	// Play "vulture death" sound.
 	df::Sound *v_sound = RM.getSound("vulture death");
 	v_sound->play();
 }
