@@ -75,7 +75,6 @@ void loadResources(void) {
 	RM.loadSprite("sprites/punch-spr.txt", "punch");
 
 	// Load sounds
-	RM.loadSound("sounds/nuke.wav", "nuke");
 	RM.loadSound("sounds/game-over-sound.wav", "game over");
 	RM.loadSound("sounds/vulture-hit.wav", "vulture death");
 	RM.loadSound("sounds/bandit-first-hit.wav", "bandit hit");
