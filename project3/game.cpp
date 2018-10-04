@@ -1,5 +1,10 @@
 // game.cpp
 
+/* CREDIT FOR MUSIC AND SOUNDS
+ * title-music.wav: limetoe, May 15, 2014, from freesound.org
+ * vulture-hit.wav: markb258, August 29, 2014, from freesound.org
+*/
+
 // Include statements.
 #include "GameManager.h"
 #include "LogManager.h"
@@ -71,10 +76,13 @@ void loadResources(void) {
 	RM.loadSound("sounds/explode.wav", "explode");
 	RM.loadSound("sounds/nuke.wav", "nuke");
 	RM.loadSound("sounds/game-over.wav", "game over");
+	RM.loadSound("sounds/vulture-hit.wav", "vulture death");
+	RM.loadSound("sounds/bandit-first-hit.wav", "bandit hit");
+	RM.loadSound("sounds/bandit-death.wav", "bandit death");
 
 	// Load music tracks
-	RM.loadMusic("sounds/start-music.wav", "start music");
 	RM.loadMusic("sounds/stargaze.wav", "game music");
+	RM.loadMusic("sounds/title-music.wav", "title music");
 }
 
 // Place objects in Game World.

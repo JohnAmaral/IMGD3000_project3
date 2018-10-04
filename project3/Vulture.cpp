@@ -150,6 +150,6 @@ void Vulture::hit(const df::EventCollision *p_collision_event) {
 	}
 
 	// Play "explode" sound.
-	df::Sound *p_sound = RM.getSound("explode");
-	p_sound->play();
+	df::Sound *v_sound = RM.getSound("vulture death");
+	v_sound->play();
 }

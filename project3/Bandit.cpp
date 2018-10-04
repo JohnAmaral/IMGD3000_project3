@@ -147,6 +147,12 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 		// Decrement health count by 1
 		health_count -= 1;
 
+		if (health_count == 1) {
+			// Play "explode" sound.
+			df::Sound *b_sound = RM.getSound("bandit hit");
+			b_sound->play();
+		}
+
 		if (health_count <= 0) {
 
 			// Mark both for deletion and add points
@@ -166,6 +172,10 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 
 			WM.markForDelete(p_collision_event->getObject1());
 			WM.markForDelete(p_collision_event->getObject2());
+
+			// Play "explode" sound.
+			df::Sound *b_sound = RM.getSound("bandit death");
+			b_sound->play();
 
 			// Create new Saucer to shoot at.
 			//new Bandit;
@@ -189,10 +199,6 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 			WM.markForDelete(this);
 		}
 	}
-
-	// Play "explode" sound.
-	df::Sound *p_sound = RM.getSound("explode");
-	p_sound->play();
 }
 
 // For step events

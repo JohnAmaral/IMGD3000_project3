@@ -32,7 +32,7 @@ GameStart::GameStart() {
 	registerInterest(df::KEYBOARD_EVENT);
 
 	// Play start music.
-	p_music = RM.getMusic("start music");
+	t_music = RM.getMusic("title music");
 	playMusic();
 
 	// Initialize background music, but do not play yet.
@@ -41,7 +41,7 @@ GameStart::GameStart() {
 
 // Play start music.
 void GameStart::playMusic() {
-	p_music->play();
+	t_music->play();
 }
 
 // Event handler for GameStart object.
@@ -99,7 +99,7 @@ void GameStart::start() {
 	
 
 	// Pause start music.
-	p_music->pause();
+	t_music->stop();
 
 	// Play game music.
 	g_music->play();
