@@ -24,8 +24,15 @@ private:
 	int lives_count; // number of lives
 	int hit_slowdown; // getting hit
 	int hit_countdown;
+
 	int bandit_score_to_reach; // keeps track of every 500 points earned
-	int num_bandits; // number of bandits to spawn with every 500 points
+	int bandit_score_to_reach_odd;
+	int bandit_score_to_reach_even;
+
+	int num_bandits_to_generate; // number of bandits to spawn with every 250 points
+	int bandit_rand_num; // int keeping track of end of range of bandits
+	int bandit_inc_num; // int keeping track of beginning of range of bandits
+
 	int lives_score_to_reach; // keeps track of every 1000 points earned
 
 	bool jumping; // is Hero jumping currently

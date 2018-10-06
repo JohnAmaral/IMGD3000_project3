@@ -21,14 +21,23 @@ Hero::Hero() {
 	fire_slowdown = 15;
 	fire_countdown = fire_slowdown;
 	lives_count = 5;
-	hit_slowdown = 2;
+	hit_slowdown = 30;
 	hit_countdown = hit_slowdown;
 	lastMovedRight = true;
 	punching = false;
 
-	bandit_score_to_reach = 500;
-	num_bandits = 0;
-	lives_score_to_reach = 1000;
+	bandit_score_to_reach = 250;
+	bandit_score_to_reach_odd = 1000;
+	bandit_score_to_reach_even = 2000;
+
+	num_bandits_to_generate = 0;
+	bandit_rand_num = 3;
+	bandit_inc_num = 0;
+
+	lives_score_to_reach = 1500;
+
+	// Set altitude to higher than other objects
+	setAltitude(3);
 
 	// Set score ViewObject
 	score = new df::ViewObject;
@@ -176,6 +185,42 @@ void Hero::step() {
 	if (getPosition().getY() == 21 && !jumping) {
 		setVelocity(df::Vector(0, 0));
 	}
+
+	// Check score to increase range of Bandits to spawn
+	if (score->getValue() >= bandit_score_to_reach_odd) {
+
+		// Increase range of bandits to spawn
+		bandit_rand_num--;
+		bandit_inc_num++;
+		bandit_score_to_reach_odd += 2000;
+	}
+
+	// Check score to increase range of Bandits to spawn
+	if (score->getValue() >= bandit_score_to_reach_even) {
+
+		// Increase range of bandits to spawn
+		bandit_rand_num++;
+		bandit_score_to_reach_even += 2000;
+	}
+
+	// Check score to start spawning Bandits
+	if (score->getValue() >= bandit_score_to_reach) {
+		num_bandits_to_generate = rand() % bandit_rand_num + bandit_inc_num;
+		for (int i = 0; i < num_bandits_to_generate; i++) {
+			new Bandit();
+		}
+		bandit_score_to_reach += 250;
+	}
+
+	// Check score to add extra life
+	if (score->getValue() >= lives_score_to_reach) {
+		// Increment lives by 1
+		df::EventView ev("Lives", 1, true);
+		WM.onEvent(&ev);
+		lives_count++;
+
+		lives_score_to_reach += 1500;
+	}
 }
 
 // Take appropriate action according to key pressed
@@ -305,25 +350,6 @@ void Hero::fire(df::Vector target) {
 	// Play "fire" sound
 	df::Sound *p_sound = RM.getSound("fire");
 	p_sound->play();
-
-	// Check score to start spawning Bandits
-	if (score->getValue() >= bandit_score_to_reach) {
-		for (int i = 0; i < (num_bandits + 1); i++) {
-			new Bandit();
-		}
-		bandit_score_to_reach += 500;
-		num_bandits += 1;
-	}
-
-	// Check score to add extra life
-	if (score->getValue() >= lives_score_to_reach) {
-		// Increment lives by 1
-		df::EventView ev("Lives", 1, true);
-		WM.onEvent(&ev);
-		lives_count++;
-
-		lives_score_to_reach += 1000;
-	}
 }
 
 void Hero::punch() {

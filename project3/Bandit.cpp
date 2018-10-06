@@ -20,7 +20,7 @@ Bandit::Bandit() {
 	else {
 		// Setup sprite and set animation to advance once every 4 frames
 		setSprite(p_temp_sprite);
-		setSpriteSlowdown(4);
+		setSpriteSlowdown(10);
 	}
 
 	// Initialize attributes

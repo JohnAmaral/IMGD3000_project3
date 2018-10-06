@@ -12,16 +12,6 @@
 // Constructor
 Vulture::Vulture() {
 
-	// Setup "vulture" sprite.
-	df::Sprite *p_temp_sprite = RM.getSprite("vulture");
-	if (!p_temp_sprite) // if sprite not found correctly
-		LM.writeLog("Vulture::Vulture(): Warning! Sprite '%s' not found", "vulture");
-	else {
-		// Setup sprite and set animation to advance once every 4 frames
-		setSprite(p_temp_sprite);
-		setSpriteSlowdown(4);
-	}
-
 	// Set object type.
 	setType("Vulture");
 
@@ -75,6 +65,16 @@ void Vulture::moveToStart() {
 
 	if (rand_spawn <= 50) {
 
+		// Setup "vulture right" sprite.
+		df::Sprite *p_temp_sprite = RM.getSprite("vulture right");
+		if (!p_temp_sprite) // if sprite not found correctly
+			LM.writeLog("Vulture::Vulture(): Warning! Sprite '%s' not found", "vulture right");
+		else {
+			// Setup sprite and set animation to advance once every 4 frames
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(4);
+		}
+
 		// Set vulture velocity
 		setVelocity(df::Vector(-0.25, 0)); // 1 space left every 4 frames
 
@@ -92,6 +92,16 @@ void Vulture::moveToStart() {
 		}
 	}
 	else if (rand_spawn > 50) {
+
+		// Setup "vulture left" sprite.
+		df::Sprite *p_temp_sprite = RM.getSprite("vulture left");
+		if (!p_temp_sprite) // if sprite not found correctly
+			LM.writeLog("Vulture::Vulture(): Warning! Sprite '%s' not found", "vulture left");
+		else {
+			// Setup sprite and set animation to advance once every 4 frames
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(4);
+		}
 
 		// Set vulture velocity
 		setVelocity(df::Vector(+0.25, 0)); // 1 space left every 4 frames

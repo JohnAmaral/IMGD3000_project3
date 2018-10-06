@@ -50,8 +50,11 @@ int main(int argc, char *argv[]) {
 // Load necessary game resources.
 void loadResources(void) {
 
-	// Load saucer sprite.
-	RM.loadSprite("sprites/vulture-spr.txt", "vulture");
+	// Load left vulture sprite.
+	RM.loadSprite("sprites/vulture-left-spr.txt", "vulture left");
+
+	// Load right vulture sprite.
+	RM.loadSprite("sprites/vulture-right-spr.txt", "vulture right");
 
 	// Load sheriff-shooting right sprite.
 	RM.loadSprite("sprites/sheriff-shooting-spr.txt", "sheriff right");
