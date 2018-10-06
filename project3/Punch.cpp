@@ -24,12 +24,14 @@ Punch::Punch(Hero *h) {
 	setType("Punch");
 	this_hero = h;
 
-	df::Vector p(this_hero->getPosition().getX() + 2, this_hero->getPosition().getY());
+	float x_pos = this_hero->getPosition().getX();
+	float y_pos = this_hero->getPosition().getY();
+	df::Vector p(x_pos + 3, y_pos);
 	setPosition(p);
 
 	// Make the punch soft so can pass through hero
 	setSolidness(df::SOFT);
-	removal_countdown = 10;
+	removal_countdown = 15;
 	registerInterest(df::STEP_EVENT);
 }
 
@@ -69,7 +71,7 @@ void Punch::step() {
 		WM.markForDelete(this);
 	}
 
-	df::Vector p(this_hero->getPosition().getX() + 2, this_hero->getPosition().getY());
+	df::Vector p(this_hero->getPosition().getX() + 3, this_hero->getPosition().getY());
 	setPosition(p);
 }
 
@@ -82,6 +84,5 @@ void Punch::hit(const df::EventCollision *p_collision_event) {
 		// Increment score by 50 points
 		df::EventView ev("Score", 100, true);
 		WM.onEvent(&ev);
-
 	}
 }

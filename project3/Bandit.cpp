@@ -151,7 +151,7 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 				WM.onEvent(&ev);
 			}
 			// If Bandit collides with Punch
-			else if ((p_collision_event->getObject1()->getType() == "Punch") ||
+			if ((p_collision_event->getObject1()->getType() == "Punch") ||
 				(p_collision_event->getObject2()->getType() == "Punch")) {
 
 				// Increment score by 200 points
@@ -172,21 +172,12 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 
 			return;
 		}
+
 		if ((p_collision_event->getObject1()->getType() == "Bullet") ||
 			(p_collision_event->getObject1()->getType() == "Punch"))
 			WM.markForDelete(p_collision_event->getObject1());
-		else if ((p_collision_event->getObject2()->getType() == "Bullet") ||
+		if ((p_collision_event->getObject2()->getType() == "Bullet") ||
 			(p_collision_event->getObject2()->getType() == "Punch"))
 			WM.markForDelete(p_collision_event->getObject2());
-	}
-
-	// If Bandit runs into Hero, mark Bandit for deletion.
-	if (((p_collision_event->getObject1()->getType()) == "Sheriff") ||
-		((p_collision_event->getObject2()->getType()) == "Sheriff")) {
-
-		health_count -= 1;
-		if (health_count <= 0) {
-			WM.markForDelete(this);
-		}
 	}
 }
