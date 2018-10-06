@@ -1,0 +1,11 @@
+frames 2
+width 9
+height 2
+color magenta
+<(*)____ 
+  |__v__>
+end
+<(*)_^__ 
+  |__^__>
+end
+eof
