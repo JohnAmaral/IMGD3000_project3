@@ -23,6 +23,8 @@ Hero::Hero() {
 	lives_count = 5;
 	hit_slowdown = 2;
 	hit_countdown = hit_slowdown;
+	lastMovedRight = true;
+	punching = false;
 
 	bandit_score_to_reach = 500;
 	num_bandits = 0;
@@ -42,11 +44,11 @@ Hero::Hero() {
 	lives->setValue(5); // initially 6 hit points
 	lives->setColor(df::RED); // yellow display
 
-	// Link to "sheriff gun" sprite
+	// Link to "sheriff right" sprite
 	df::Sprite *p_temp_sprite;
-	p_temp_sprite = RM.getSprite("sheriff gun");
+	p_temp_sprite = RM.getSprite("sheriff right");
 	if (!p_temp_sprite) {
-		LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff");
+		LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff right");
 	}
 	else {
 		setSprite(p_temp_sprite);
@@ -229,7 +231,7 @@ void Hero::jump() {
 	return;
 }
 
-// Move up and down
+// Move left and right
 void Hero::move(float dx) {
 
 	// See if time to move
@@ -237,6 +239,46 @@ void Hero::move(float dx) {
 		return;
 	}
 	move_countdown = move_slowdown;
+
+	if (punching) {
+		// Don't change sprite
+		if (dx >= 0) {
+			lastMovedRight = true;
+		}
+		else {
+			lastMovedRight = false;
+		}
+	}
+	else if (dx >= 0) {
+		// Link to "sheriff right" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("sheriff right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff right");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(3); // 1/3 speed animation
+			setTransparency(); // Transparent sprite
+		}
+
+		lastMovedRight = true;
+	}
+	else {
+		// Link to "sheriff left" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("sheriff left");
+		if (!p_temp_sprite) {
+			LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff left");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(3); // 1/3 speed animation
+			setTransparency(); // Transparent sprite
+		}
+
+		lastMovedRight = false;
+	}
 
 	// If stays on window, allow move
 	df::Vector new_pos(getPosition().getX() + dx, getPosition().getY());
@@ -303,6 +345,7 @@ void Hero::punch() {
 	}
 
 	Punch *p = new Punch(this);
+	punching = true;
 
 	// Play punch sound
 	/*
@@ -324,4 +367,8 @@ void Hero::mouse(const df::EventMouse *p_mouse_event) {
 		(p_mouse_event->getMouseButton() == df::Mouse::RIGHT)) {
 		fire(p_mouse_event->getMousePosition());
 	}
+}
+
+bool Hero::getLastMovement() const {
+	return lastMovedRight;
 }

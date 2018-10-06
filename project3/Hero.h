@@ -29,6 +29,7 @@ private:
 	int lives_score_to_reach; // keeps track of every 1000 points earned
 
 	bool jumping; // is Hero jumping currently
+	bool lastMovedRight; // did the hero last move to the right
 
 	df::ViewObject *score; // ViewObject for keeping score
 	df::ViewObject *lives; // ViewObject for lives count
@@ -47,7 +48,10 @@ private:
 public:
 	Hero();
 	~Hero();
+	bool punching; // is Hero punching currently
+
 	int eventHandler(const df::Event *p_e);
+	bool getLastMovement() const;
 };
 
 #endif // !__HERO_H__

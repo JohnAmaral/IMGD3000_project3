@@ -11,22 +11,36 @@
 
 Punch::Punch(Hero *h) {
 
-	df::Sprite *p_temp_sprite = RM.getSprite("punch");
-	if (!p_temp_sprite) {
-		LM.writeLog("Punch::Punch(): Warning! Sprite '%s' not found", "punch");
-	}
-	else {
-		setSprite(p_temp_sprite);
-		setSpriteSlowdown(5);
-	}
-
 	// Set object type
 	setType("Punch");
 	this_hero = h;
 
+	if (this_hero->getLastMovement()) {
+		df::Sprite *p_temp_sprite = RM.getSprite("punch right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Punch::Punch(): Warning! Sprite '%s' not found", "punch right");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(5);
+			setTransparency('#');
+		}
+	}
+	else {
+		df::Sprite *p_temp_sprite = RM.getSprite("punch left");
+		if (!p_temp_sprite) {
+			LM.writeLog("Punch::Punch(): Warning! Sprite '%s' not found", "punch left");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(5);
+			setTransparency('#');
+		}
+	}
+
 	float x_pos = this_hero->getPosition().getX();
 	float y_pos = this_hero->getPosition().getY();
-	df::Vector p(x_pos + 3, y_pos);
+	df::Vector p(x_pos + 5, y_pos);
 	setPosition(p);
 
 	// Make the punch soft so can pass through hero
@@ -56,23 +70,66 @@ void Punch::step() {
 	removal_countdown--;
 	if (removal_countdown < 0) {
 
-		// Link to "sheriff gun" sprite
-		df::Sprite *p_temp_sprite;
-		p_temp_sprite = RM.getSprite("sheriff gun");
-		if (!p_temp_sprite) {
-			LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff");
+		if (this_hero->getLastMovement()) {
+			// Link to "sheriff right" sprite
+			df::Sprite *p_temp_sprite;
+			p_temp_sprite = RM.getSprite("sheriff right");
+			if (!p_temp_sprite) {
+				LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "sheriff right");
+			}
+			else {
+				this_hero->setSprite(p_temp_sprite);
+				this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+				this_hero->setTransparency(); // Transparent sprite
+			}
 		}
 		else {
-			this_hero->setSprite(p_temp_sprite);
-			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
-			this_hero->setTransparency(); // Transparent sprite
+			// Link to "sheriff left" sprite
+			df::Sprite *p_temp_sprite;
+			p_temp_sprite = RM.getSprite("sheriff left");
+			if (!p_temp_sprite) {
+				LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "sheriff left");
+			}
+			else {
+				this_hero->setSprite(p_temp_sprite);
+				this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+				this_hero->setTransparency(); // Transparent sprite
+			}
 		}
+		
+		this_hero->punching = false;
 
 		WM.markForDelete(this);
+		return;
 	}
 
-	df::Vector p(this_hero->getPosition().getX() + 3, this_hero->getPosition().getY());
-	setPosition(p);
+	if (this_hero->getLastMovement()) {
+		df::Sprite *p_temp_sprite = RM.getSprite("punch right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Punch::Punch(): Warning! Sprite '%s' not found", "punch right");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(5);
+			setTransparency('#');
+		}
+		df::Vector p(this_hero->getPosition().getX() + 5, this_hero->getPosition().getY());
+		setPosition(p);
+	}
+	else {
+		df::Sprite *p_temp_sprite = RM.getSprite("punch left");
+		if (!p_temp_sprite) {
+			LM.writeLog("Punch::Punch(): Warning! Sprite '%s' not found", "punch left");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(5);
+			setTransparency('#');
+		}
+		df::Vector p(this_hero->getPosition().getX() - 5, this_hero->getPosition().getY());
+		setPosition(p);
+	}
+	
 }
 
 void Punch::hit(const df::EventCollision *p_collision_event) {

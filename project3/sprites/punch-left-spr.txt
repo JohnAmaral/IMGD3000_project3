@@ -2,9 +2,9 @@ frames 1
 width 9
 height 4
 color yellow
-####____ 
-___/__  )
-___   ) )
-   \____)
+ ____####
+(  __\___
+( (   ___
+(____/   
 end
 eof

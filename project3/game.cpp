@@ -53,8 +53,11 @@ void loadResources(void) {
 	// Load saucer sprite.
 	RM.loadSprite("sprites/vulture-spr.txt", "vulture");
 
-	// Load sheriff-shooting sprite.
-	RM.loadSprite("sprites/sheriff-shooting-spr.txt", "sheriff gun");
+	// Load sheriff-shooting right sprite.
+	RM.loadSprite("sprites/sheriff-shooting-spr.txt", "sheriff right");
+
+	// Load sheriff-shooting left sprite.
+	RM.loadSprite("sprites/sheriff-shooting-left-spr.txt", "sheriff left");
 
 	// Load sheriff-standard sprite.
 	RM.loadSprite("sprites/sheriff-standard-spr.txt", "sheriff nothing");
@@ -71,8 +74,11 @@ void loadResources(void) {
 	// Load game start sprite.
 	RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
 
-	// Load punch sprite
-	RM.loadSprite("sprites/punch-spr.txt", "punch");
+	// Load punch right sprite
+	RM.loadSprite("sprites/punch-spr.txt", "punch right");
+
+	// Load punch left sprite
+	RM.loadSprite("sprites/punch-left-spr.txt", "punch left");
 
 	// Load sounds
 	RM.loadSound("sounds/game-over-sound.wav", "game over");
