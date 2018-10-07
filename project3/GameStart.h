@@ -11,7 +11,7 @@
 class GameStart : public df::ViewObject {
 
 private:
-	void start();
+	void start(bool character_choice);
 	df::Music *t_music; // used for playing Game Start music
 
 public:

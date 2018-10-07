@@ -14,7 +14,7 @@
 #include "GameOver.h"
 #include "Bandit.h"
 
-Hero::Hero() {
+Hero::Hero(bool character_choice) {
 
 	move_slowdown = 2;
 	move_countdown = move_slowdown;
@@ -25,6 +25,7 @@ Hero::Hero() {
 	hit_countdown = hit_slowdown;
 	lastMovedRight = true;
 	punching = false;
+	alignment = character_choice;
 
 	bandit_score_to_reach = 250;
 	bandit_score_to_reach_odd = 1000;
@@ -53,17 +54,34 @@ Hero::Hero() {
 	lives->setValue(5); // initially 6 hit points
 	lives->setColor(df::RED); // yellow display
 
-	// Link to "sheriff right" sprite
-	df::Sprite *p_temp_sprite;
-	p_temp_sprite = RM.getSprite("sheriff right");
-	if (!p_temp_sprite) {
-		LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff right");
+	// if the player chose to play as the sheriff, load sheriff sprite
+	if (alignment) {
+		// Link to "sheriff right" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("sheriff right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff right");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(3); // 1/3 speed animation
+			setTransparency(); // Transparent sprite
+		}
 	}
 	else {
-		setSprite(p_temp_sprite);
-		setSpriteSlowdown(3); // 1/3 speed animation
-		setTransparency(); // Transparent sprite
+		// Link to "outlaw right" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("outlaw right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "outlaw right");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(3); // 1/3 speed animation
+			setTransparency(); // Transparent sprite
+		}
 	}
+	
 
 	registerInterest(df::MOUSE_EVENT);
 	registerInterest(df::KEYBOARD_EVENT);
@@ -307,7 +325,7 @@ void Hero::move(float dx) {
 			lastMovedRight = false;
 		}
 	}
-	else if (dx >= 0) {
+	else if (dx >= 0 && alignment) {
 		// Link to "sheriff right" sprite
 		df::Sprite *p_temp_sprite;
 		p_temp_sprite = RM.getSprite("sheriff right");
@@ -322,12 +340,42 @@ void Hero::move(float dx) {
 
 		lastMovedRight = true;
 	}
-	else {
+	else if (dx >= 0 && !alignment) {
+		// Link to "outlaw right" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("outlaw right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "outlaw right");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(3); // 1/3 speed animation
+			setTransparency(); // Transparent sprite
+		}
+
+		lastMovedRight = true;
+	}
+	else if (dx <= 0 && alignment) {
 		// Link to "sheriff left" sprite
 		df::Sprite *p_temp_sprite;
 		p_temp_sprite = RM.getSprite("sheriff left");
 		if (!p_temp_sprite) {
 			LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "sheriff left");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(3); // 1/3 speed animation
+			setTransparency(); // Transparent sprite
+		}
+
+		lastMovedRight = false;
+	}
+	else {
+		// Link to "outlaw left" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("outlaw left");
+		if (!p_temp_sprite) {
+			LM.writeLog("Hero::Hero(): Warning! Sprite '%s' not found", "outlaw left");
 		}
 		else {
 			setSprite(p_temp_sprite);
@@ -408,4 +456,8 @@ void Hero::mouse(const df::EventMouse *p_mouse_event) {
 
 bool Hero::getLastMovement() const {
 	return lastMovedRight;
+}
+
+bool Hero::isSheriff() const {
+	return alignment;
 }

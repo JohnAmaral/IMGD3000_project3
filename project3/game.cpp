@@ -70,6 +70,12 @@ void loadResources(void) {
 	// Load sheriff-standard sprite.
 	RM.loadSprite("sprites/sheriff-standard-spr.txt", "sheriff nothing");
 
+	// Load outlaw right sprite.
+	RM.loadSprite("sprites/outlaw-right-spr.txt", "outlaw right");
+
+	// Load outlaw left sprite.
+	RM.loadSprite("sprites/outlaw-left-spr.txt", "outlaw left");
+
 	// Load bullet sprite.
 	RM.loadSprite("sprites/bullet-spr.txt", "bullet");
 

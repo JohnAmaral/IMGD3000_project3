@@ -50,9 +50,13 @@ int GameStart::eventHandler(const df::Event *p_e) {
 		df::EventKeyboard *p_keyboard_event = (df::EventKeyboard *) p_e;
 
 		switch (p_keyboard_event->getKey()) {
-			// Press P to play
+			// Press P to play as the sheriff
 		case df::Keyboard::P:
-			start();
+			start(true);
+			break;
+			// Press L to play as the outlaw
+		case df::Keyboard::L:
+			start(false);
 			break;
 			// Press Q to quit
 		case df::Keyboard::Q:
@@ -67,10 +71,10 @@ int GameStart::eventHandler(const df::Event *p_e) {
 }
 
 // Process of starting game.
-void GameStart::start() {
+void GameStart::start(bool character_choice) {
 
 	// Create new Hero object.
-	new Hero();
+	new Hero(character_choice);
 
 	// Spawn some vultures to kill using loop.
 	for (int i = 0; i < 10; i++)

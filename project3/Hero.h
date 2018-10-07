@@ -37,6 +37,7 @@ private:
 
 	bool jumping; // is Hero jumping currently
 	bool lastMovedRight; // did the hero last move to the right
+	bool alignment; // is Hero sheriff or outlaw
 
 	df::ViewObject *score; // ViewObject for keeping score
 	df::ViewObject *lives; // ViewObject for lives count
@@ -53,12 +54,13 @@ private:
 	void hit(const df::EventCollision *p_collision_event);
 
 public:
-	Hero();
+	Hero(bool character_choice);
 	~Hero();
 	bool punching; // is Hero punching currently
 
 	int eventHandler(const df::Event *p_e);
 	bool getLastMovement() const;
+	bool isSheriff() const;
 };
 
 #endif // !__HERO_H__
