@@ -13,6 +13,7 @@
 #include "EventView.h"
 #include "GameOver.h"
 #include "Bandit.h"
+#include "Skull.h"
 
 Hero::Hero() {
 
@@ -147,6 +148,10 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 			// Play sheriff death sound
 			df::Sound *p_sound = RM.getSound("sheriff death");
 			p_sound->play();
+
+			// Create Skull icon
+			Skull *p_skull = new Skull();
+			p_skull->setPosition(this->getPosition());
 
 			return;
 		}

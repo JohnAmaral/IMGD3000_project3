@@ -1,0 +1,11 @@
+frames 1
+width 11
+height 5
+color white
+()  ___  ()
+  \/O O\/  
+   ( ^ )   
+   /\m/\   
+ ()     () 
+end
+eof

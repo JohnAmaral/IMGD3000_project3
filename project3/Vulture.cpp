@@ -8,6 +8,7 @@
 #include "EventOut.h"
 #include "EventCollision.h"
 #include "EventView.h"
+#include "Skull.h"
 
 // Constructor
 Vulture::Vulture() {
@@ -135,13 +136,19 @@ void Vulture::hit(const df::EventCollision *p_collision_event) {
 		(p_collision_event->getObject2()->getType() == "Vulture"))
 		return; // if both types "Vulture"
 
-	// If Vulture runs into Bullet
+	// If Vulture runs into Bullet or Punch
 	if ((p_collision_event->getObject1()->getType() == "Bullet") ||
-		(p_collision_event->getObject2()->getType() == "Bullet")) {
+		(p_collision_event->getObject2()->getType() == "Bullet") ||
+		(p_collision_event->getObject1()->getType() == "Punch") ||
+		(p_collision_event->getObject2()->getType() == "Punch")) {
 
 		// Play "vulture death" sound.
 		df::Sound *v_sound = RM.getSound("vulture death");
 		v_sound->play();
+
+		// Create Skull icon
+		Skull *p_skull = new Skull();
+		p_skull->setPosition(this->getPosition());
 
 		// Create new Vulture to shoot at.
 		new Vulture;

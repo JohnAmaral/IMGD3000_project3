@@ -91,6 +91,9 @@ void loadResources(void) {
 	// Load cactus sprite
 	RM.loadSprite("sprites/cactus-spr.txt", "cactus");
 
+	// Load skull sprite
+	RM.loadSprite("sprites/skull-spr.txt", "skull");
+
 	// Load sounds
 	RM.loadSound("sounds/game-over-sound.wav", "game over");
 	RM.loadSound("sounds/vulture-hit.wav", "vulture death");

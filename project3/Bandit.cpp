@@ -9,6 +9,7 @@
 #include "EventCollision.h"
 #include <stdlib.h> // Used for rand() call in moveToStart()
 #include "EventView.h"
+#include "Skull.h"
 
 // Constructor
 Bandit::Bandit() {
@@ -171,8 +172,9 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 			df::Sound *b_sound = RM.getSound("bandit death");
 			b_sound->play();
 
-			// Create new Bandit to shoot at.
-			//new Bandit;
+			// Create Skull icon
+			Skull *p_skull = new Skull();
+			p_skull->setPosition(this->getPosition());
 
 			return;
 		}
