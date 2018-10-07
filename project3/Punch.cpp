@@ -50,12 +50,38 @@ Punch::Punch(Hero *h) {
 }
 
 Punch::~Punch() {
-	if (this_hero->getLastMovement()) {
+	if (this_hero->getLastMovement() && this_hero->isSheriff()) {
 		// Link to "sheriff right" sprite
 		df::Sprite *p_temp_sprite;
 		p_temp_sprite = RM.getSprite("sheriff right");
 		if (!p_temp_sprite) {
-			LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "sheriff right");
+			LM.writeLog("Punch::~Punch(): Warning! Sprite '%s' not found", "sheriff right");
+		}
+		else {
+			this_hero->setSprite(p_temp_sprite);
+			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+			this_hero->setTransparency(); // Transparent sprite
+		}
+	}
+	else if (this_hero->getLastMovement() && !this_hero->isSheriff()) {
+		// Link to "outlaw right" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("outlaw right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Punch::~Punch(): Warning! Sprite '%s' not found", "outlaw right");
+		}
+		else {
+			this_hero->setSprite(p_temp_sprite);
+			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+			this_hero->setTransparency(); // Transparent sprite
+		}
+	}
+	else if (!this_hero->getLastMovement() && this_hero->isSheriff()) {
+		// Link to "sheriff left" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("sheriff left");
+		if (!p_temp_sprite) {
+			LM.writeLog("Punch::~Punch(): Warning! Sprite '%s' not found", "sheriff left");
 		}
 		else {
 			this_hero->setSprite(p_temp_sprite);
@@ -64,11 +90,11 @@ Punch::~Punch() {
 		}
 	}
 	else {
-		// Link to "sheriff left" sprite
+		// Link to "outlaw left" sprite
 		df::Sprite *p_temp_sprite;
-		p_temp_sprite = RM.getSprite("sheriff left");
+		p_temp_sprite = RM.getSprite("outlaw left");
 		if (!p_temp_sprite) {
-			LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "sheriff left");
+			LM.writeLog("Punch::~Punch(): Warning! Sprite '%s' not found", "outlaw left");
 		}
 		else {
 			this_hero->setSprite(p_temp_sprite);
