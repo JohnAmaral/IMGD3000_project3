@@ -138,7 +138,11 @@ void Punch::hit(const df::EventCollision *p_collision_event) {
 		WM.markForDelete(p_collision_event->getObject1());
 		WM.markForDelete(p_collision_event->getObject2());
 
-		// Increment score by 50 points
+		// Play "vulture death" sound.
+		df::Sound *v_sound = RM.getSound("vulture death");
+		v_sound->play();
+
+		// Increment score by 100 points
 		df::EventView ev("Score", 100, true);
 		WM.onEvent(&ev);
 	}

@@ -21,6 +21,7 @@ Bandit::Bandit() {
 		// Setup sprite and set animation to advance once every 4 frames
 		setSprite(p_temp_sprite);
 		setSpriteSlowdown(10);
+		setTransparency();
 	}
 
 	// Initialize attributes
@@ -34,6 +35,9 @@ Bandit::Bandit() {
 
 	// Set solidness to soft
 	setSolidness(df::SOFT);
+
+	// Set altitude
+	setAltitude(1);
 }
 
 // Event handler for Bandit objects.

@@ -143,8 +143,16 @@ void Hero::hit(const df::EventCollision *p_collision_event) {
 			if ((p_collision_event->getObject2()->getType()) == "Sheriff") {
 				WM.markForDelete(p_collision_event->getObject2());
 			}
+
+			// Play sheriff death sound
+			df::Sound *p_sound = RM.getSound("sheriff death");
+			p_sound->play();
+
 			return;
 		}
+		// Play sheriff hit sound
+		df::Sound *p_sound = RM.getSound("sheriff hit");
+		p_sound->play();
 	}
 }
 
@@ -210,6 +218,11 @@ void Hero::step() {
 			new Bandit();
 		}
 		bandit_score_to_reach += 250;
+		if (bandit_score_to_reach == 500) {
+			// Play sheriff taunt sound
+			df::Sound *p_sound = RM.getSound("sheriff taunt");
+			p_sound->play();
+		}
 	}
 
 	// Check score to add extra life
@@ -374,10 +387,8 @@ void Hero::punch() {
 	punching = true;
 
 	// Play punch sound
-	/*
 	df::Sound *p_sound = RM.getSound("punch");
 	p_sound->play();
-	*/
 }
 
 void Hero::mouse(const df::EventMouse *p_mouse_event) {

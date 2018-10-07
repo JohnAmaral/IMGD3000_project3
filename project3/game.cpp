@@ -2,10 +2,15 @@
 
 /* CREDIT FOR MUSIC AND SOUNDS
  * title-music.wav: limetoe, May 15, 2014, from freesound.org
- * vulture-hit.wav: markb258, August 29, 2014, from freesound.org
+ * vulture-hit.wav: InspectorJ, February 15, 2018, from freesound.org
  * bandit-hit.wav: AlineAudio, January 28, 2018, from freesound.org
  * bandit-death.wav: AlineAudio, January 28, 2018, from freesound.org
  * gunshot.wav: michorvath, May 6, 2018, from freesound.org
+ * game-over-sound.wav: MinigunFiend, January 22, 2013, from freesound.org
+ * punch.wav: thefsoundman, April 21, 2011, from freesound.org
+ * sheriff-hit.ogg: micahlg, December 10, 2017, from freesound.org
+ * sheriff-taunt.wav: shawshank73, July 31, 2011, from freesound.org
+ * sheriff-death.wav: AlineAudio, January 27, 2018, from freesound.org
 */
 
 // Include statements.
@@ -83,12 +88,19 @@ void loadResources(void) {
 	// Load punch left sprite
 	RM.loadSprite("sprites/punch-left-spr.txt", "punch left");
 
+	// Load cactus sprite
+	RM.loadSprite("sprites/cactus-spr.txt", "cactus");
+
 	// Load sounds
 	RM.loadSound("sounds/game-over-sound.wav", "game over");
 	RM.loadSound("sounds/vulture-hit.wav", "vulture death");
 	RM.loadSound("sounds/bandit-first-hit.wav", "bandit hit");
 	RM.loadSound("sounds/bandit-death.wav", "bandit death");
 	RM.loadSound("sounds/gunshot.wav", "fire");
+	RM.loadSound("sounds/punch.wav", "punch");
+	RM.loadSound("sounds/sheriff-hit.ogg", "sheriff hit");
+	RM.loadSound("sounds/sheriff-taunt.wav", "sheriff taunt");
+	RM.loadSound("sounds/sheriff-death.wav", "sheriff death");
 
 	// Load music tracks
 	RM.loadMusic("sounds/title-music.wav", "title music");

@@ -1,0 +1,15 @@
+frames 1
+width 11
+height 7
+color green
+     _     
+ _  | |    
+| |_| |    
+|___  |  _ 
+    | |_| |
+    |  ___|
+    | |    
+end
+eof
+
+

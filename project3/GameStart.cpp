@@ -9,6 +9,7 @@
 #include "Vulture.h"
 #include "Bandit.h"
 #include "Music.h"
+#include "Cactus.h"
 
 // Constructor
 GameStart::GameStart() {
@@ -73,7 +74,20 @@ void GameStart::start() {
 
 	// Spawn some vultures to kill using loop.
 	for (int i = 0; i < 10; i++)
-		new Vulture();	
+		new Vulture();
+
+	// Create some cacti
+	Cactus *c1 = new Cactus();
+	df::Vector pos_1 = c1->getPosition();
+	pos_1.setX((float)(rand() % 65 + 10));
+	pos_1.setY(20);
+	c1->setPosition(pos_1);
+
+	Cactus *c2 = new Cactus();
+	df::Vector pos_2 = c2->getPosition();
+	pos_2.setX((float)(rand() % 65 + 10));
+	pos_2.setY(20);
+	c2->setPosition(pos_2);
 
 	// Stop start music.
 	t_music->stop();

@@ -47,7 +47,7 @@ GameOver::~GameOver() {
 	df::ObjectListIterator i(&object_list);
 	for (i.first(); !i.isDone(); i.next()) {
 		df::Object *p_o = i.currentObject();
-		if (p_o->getType() == "Vulture" || p_o->getType() == "Bandit" || p_o->getType() == "ViewObject")
+		if (p_o->getType() == "Vulture" || p_o->getType() == "Bandit" || p_o->getType() == "ViewObject" || p_o->getType() == "Cactus")
 			WM.markForDelete(p_o); // delete Vultures, Bandits and ViewObjects
 		if (p_o->getType() == "GameStart") {
 			p_o->setActive(true); // reactive GameStart object

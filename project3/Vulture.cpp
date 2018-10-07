@@ -20,6 +20,9 @@ Vulture::Vulture() {
 
 	// Set solidness to soft
 	setSolidness(df::SOFT);
+
+	// Set transparency
+	setTransparency();
 }
 
 // Event handler for Vulture objects.
@@ -136,18 +139,11 @@ void Vulture::hit(const df::EventCollision *p_collision_event) {
 	if ((p_collision_event->getObject1()->getType() == "Bullet") ||
 		(p_collision_event->getObject2()->getType() == "Bullet")) {
 
+		// Play "vulture death" sound.
+		df::Sound *v_sound = RM.getSound("vulture death");
+		v_sound->play();
+
 		// Create new Vulture to shoot at.
 		new Vulture;
 	}
-
-	// If Vulture runs into Hero, mark Vulture for deletion.
-	if (((p_collision_event->getObject1()->getType()) == "Sheriff") ||
-		((p_collision_event->getObject2()->getType()) == "Sheriff")) {
-
-		WM.markForDelete(this);
-	}
-
-	// Play "vulture death" sound.
-	df::Sound *v_sound = RM.getSound("vulture death");
-	v_sound->play();
 }
