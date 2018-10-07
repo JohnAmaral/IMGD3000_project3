@@ -20,6 +20,7 @@ private:
 
 public:
 	Punch(Hero *h);
+	~Punch();
 	int eventHandler(const df::Event *p_e);
 };
 

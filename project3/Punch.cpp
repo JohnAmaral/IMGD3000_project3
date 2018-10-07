@@ -49,6 +49,37 @@ Punch::Punch(Hero *h) {
 	registerInterest(df::STEP_EVENT);
 }
 
+Punch::~Punch() {
+	if (this_hero->getLastMovement()) {
+		// Link to "sheriff right" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("sheriff right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "sheriff right");
+		}
+		else {
+			this_hero->setSprite(p_temp_sprite);
+			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+			this_hero->setTransparency(); // Transparent sprite
+		}
+	}
+	else {
+		// Link to "sheriff left" sprite
+		df::Sprite *p_temp_sprite;
+		p_temp_sprite = RM.getSprite("sheriff left");
+		if (!p_temp_sprite) {
+			LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "sheriff left");
+		}
+		else {
+			this_hero->setSprite(p_temp_sprite);
+			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+			this_hero->setTransparency(); // Transparent sprite
+		}
+	}
+
+	this_hero->punching = false;
+}
+
 int Punch::eventHandler(const df::Event *p_e) {
 	if (p_e->getType() == df::STEP_EVENT) {
 		step();
@@ -69,36 +100,6 @@ void Punch::step() {
 
 	removal_countdown--;
 	if (removal_countdown < 0) {
-
-		if (this_hero->getLastMovement()) {
-			// Link to "sheriff right" sprite
-			df::Sprite *p_temp_sprite;
-			p_temp_sprite = RM.getSprite("sheriff right");
-			if (!p_temp_sprite) {
-				LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "sheriff right");
-			}
-			else {
-				this_hero->setSprite(p_temp_sprite);
-				this_hero->setSpriteSlowdown(3); // 1/3 speed animation
-				this_hero->setTransparency(); // Transparent sprite
-			}
-		}
-		else {
-			// Link to "sheriff left" sprite
-			df::Sprite *p_temp_sprite;
-			p_temp_sprite = RM.getSprite("sheriff left");
-			if (!p_temp_sprite) {
-				LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "sheriff left");
-			}
-			else {
-				this_hero->setSprite(p_temp_sprite);
-				this_hero->setSpriteSlowdown(3); // 1/3 speed animation
-				this_hero->setTransparency(); // Transparent sprite
-			}
-		}
-		
-		this_hero->punching = false;
-
 		WM.markForDelete(this);
 		return;
 	}
