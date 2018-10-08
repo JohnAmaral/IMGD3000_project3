@@ -18,8 +18,7 @@ GameStart::GameStart() {
 	setType("GameStart");
 
 	// Put message in center of window.
-	df::Vector p(40, 8);
-	setPosition(p);
+	setLocation(df::CENTER_CENTER);
 
 	// Link to "gamestart" sprite.
 	df::Sprite *p_temp_sprite = RM.getSprite("gamestart");
@@ -27,7 +26,7 @@ GameStart::GameStart() {
 		LM.writeLog("GameStart::GameStart(): Warning! Sprite 'gamestart' not found");
 	else {
 		setSprite(p_temp_sprite);
-		setSpriteSlowdown(15);
+		setSpriteSlowdown(30);
 	}
 
 	// Register for keyboard events.
@@ -51,12 +50,12 @@ int GameStart::eventHandler(const df::Event *p_e) {
 		df::EventKeyboard *p_keyboard_event = (df::EventKeyboard *) p_e;
 
 		switch (p_keyboard_event->getKey()) {
-			// Press P to play as the sheriff
-		case df::Keyboard::P:
+			// Press S to play as the sheriff
+		case df::Keyboard::S:
 			start(true);
 			break;
-			// Press L to play as the outlaw
-		case df::Keyboard::L:
+			// Press O to play as the outlaw
+		case df::Keyboard::O:
 			start(false);
 			break;
 			// Press Q to quit

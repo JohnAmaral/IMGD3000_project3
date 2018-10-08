@@ -1,6 +1,6 @@
 frames 2
 width 70
-height 17
+height 24
 color white
        ____                                                           
       / __ \                       __         _____   __   __         
@@ -16,9 +16,16 @@ color white
        /  /_/ / /_/ / /__/  /\  \/ /_/ / /  / /_/ / /_/ /__/ /        
       /______/\__,_/\___/__/ /__/\__,_/_/   \____/\____/____/         
                                                                       
- Controls: 'a'/'d' moves, Mouse punches/shoots, Space jumps, 'q' quits
+            Controls: 'a'/'d' moves, Space jumps, 'q' quits           
+      Left Mouse Button: punch or whip, Right Mouse Button: shoot     
                                                                       
-                    Press 'p' to play, 'q' to quit                    
+ _|\/|_             Press 's' to play the sheriff           ___ _|\/|_
+  (  ) _____        Press 'o' to play the outlaw           / _ \ (<<) 
+   \/ / ___/              Press 'q' to quit               | / \ \ \/  
+  \||/_/                                                  | \/ | \||/ 
+   ||                                                      \__/   ||  
+  /  \                                                           /  \ 
+ Sheriff                                                       Outlaw 
 end
        ____                                                           
       / __ \                       __         _____   __   __         
@@ -34,8 +41,15 @@ end
        /  /_/ / /_/ / /__/  /\  \/ /_/ / /  / /_/ / /_/ /__/ /        
       /______/\__,_/\___/__/ /__/\__,_/_/   \____/\____/____/         
                                                                       
- Controls: 'a'/'d' moves, Mouse punches/shoots, Space jumps, 'q' quits
+            Controls: 'a'/'d' moves, Space jumps, 'q' quits           
+      Left Mouse Button: punch or whip, Right Mouse Button: shoot     
                                                                       
-                                                                      
+ _|\/|_                                                     ___ _|\/|_
+  (  ) _____                                               / _ \ (<<) 
+   \/ / ___/                                              | / \ \ \/  
+  \||/_/                                                  | \/ | \||/ 
+   ||                                                      \__/   ||  
+  /  \                                                           /  \ 
+ Sheriff                                                       Outlaw 
 end
 eof

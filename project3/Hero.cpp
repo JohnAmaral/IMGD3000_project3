@@ -412,7 +412,15 @@ void Hero::fire(df::Vector target) {
 	// Compute normalized vector to position, then scale by speed (1)
 	df::Vector v = target - getPosition();
 	v.normalize();
-	v.scale(1);
+
+	// Makes the outlaws gun a little slower
+	if (alignment) {
+		v.scale(1);
+	}
+	else {
+		v.scale(0.75);
+	}
+	
 	Bullet *p = new Bullet(getPosition());
 	p->setVelocity(v);
 
