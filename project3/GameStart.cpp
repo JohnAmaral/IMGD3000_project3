@@ -18,7 +18,8 @@ GameStart::GameStart() {
 	setType("GameStart");
 
 	// Put message in center of window.
-	setLocation(df::CENTER_CENTER);
+	df::Vector p(40, 8);
+	setPosition(p);
 
 	// Link to "gamestart" sprite.
 	df::Sprite *p_temp_sprite = RM.getSprite("gamestart");

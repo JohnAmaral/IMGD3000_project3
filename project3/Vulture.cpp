@@ -136,9 +136,11 @@ void Vulture::hit(const df::EventCollision *p_collision_event) {
 		(p_collision_event->getObject2()->getType() == "Vulture"))
 		return; // if both types "Vulture"
 
-	// If Vulture runs into Bullet or Punch
+	// If Vulture runs into Bullet, Whip or Punch
 	if ((p_collision_event->getObject1()->getType() == "Bullet") ||
 		(p_collision_event->getObject2()->getType() == "Bullet") ||
+		(p_collision_event->getObject1()->getType() == "Whip") ||
+		(p_collision_event->getObject2()->getType() == "Whip") ||
 		(p_collision_event->getObject1()->getType() == "Punch") ||
 		(p_collision_event->getObject2()->getType() == "Punch")) {
 

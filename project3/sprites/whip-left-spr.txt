@@ -1,0 +1,11 @@
+frames 1
+width 8
+height 5
+color yellow
+  ___   
+ / _ \  
+| / \ \ 
+| \/ | \
+ \__/   
+end
+eof

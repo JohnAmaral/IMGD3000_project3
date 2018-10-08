@@ -5,6 +5,7 @@
 #include "Hero.h"
 #include "Bullet.h"
 #include "Punch.h"
+#include "Whip.h"
 #include "LogManager.h"
 #include "GameManager.h"
 #include "WorldManager.h"
@@ -17,6 +18,8 @@
 
 Hero::Hero(bool character_choice) {
 
+	melee_slowdown = 15;
+	melee_countdown = melee_slowdown;
 	move_slowdown = 2;
 	move_countdown = move_slowdown;
 	fire_slowdown = 15;
@@ -25,7 +28,7 @@ Hero::Hero(bool character_choice) {
 	hit_slowdown = 30;
 	hit_countdown = hit_slowdown;
 	lastMovedRight = true;
-	punching = false;
+	using_weapon = false;
 	alignment = character_choice;
 
 	bandit_score_to_reach = 250;
@@ -321,7 +324,7 @@ void Hero::move(float dx) {
 	}
 	move_countdown = move_slowdown;
 
-	if (punching) {
+	if (using_weapon) {
 		// Don't change sprite
 		if (dx >= 0) {
 			lastMovedRight = true;
@@ -437,11 +440,39 @@ void Hero::punch() {
 	}
 
 	Punch *p = new Punch(this);
-	punching = true;
+	using_weapon = true;
 
 	// Play punch sound
 	df::Sound *p_sound = RM.getSound("punch");
 	p_sound->play();
+}
+
+void Hero::whip() {
+	if (melee_countdown > 0) {
+		return;
+	}
+	melee_countdown = melee_slowdown;
+
+	// Link to "sheriff nothing" sprite
+	df::Sprite *p_temp_sprite;
+	p_temp_sprite = RM.getSprite("sheriff nothing");
+	if (!p_temp_sprite) {
+		LM.writeLog("Hero::whip(): Warning! Sprite '%s' not found", "sheriff nothing");
+	}
+	else {
+		setSprite(p_temp_sprite);
+		setSpriteSlowdown(3); // 1/3 speed animation
+		setTransparency(); // Transparent sprite
+	}
+
+	Whip *p = new Whip(this);
+	using_weapon = true;
+
+	// Play whip sound
+	/*
+	df::Sound *p_sound = RM.getSound("whip");
+	p_sound->play();
+	*/
 }
 
 void Hero::mouse(const df::EventMouse *p_mouse_event) {
@@ -449,7 +480,12 @@ void Hero::mouse(const df::EventMouse *p_mouse_event) {
 	// Pressed left button?
 	if ((p_mouse_event->getMouseAction() == df::CLICKED) &&
 		(p_mouse_event->getMouseButton() == df::Mouse::LEFT)) {
-		punch();
+		if (alignment) {
+			punch();
+		}
+		else {
+			whip();
+		}
 	}
 
 	// Pressed right button?

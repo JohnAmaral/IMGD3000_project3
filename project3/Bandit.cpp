@@ -130,9 +130,11 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 		(p_collision_event->getObject2()->getType() == "Bandit"))
 		return; // if both types "Bandit"
 
-	// If Bandit runs into Bullet
+	// If Bandit runs into Bullet, Whip or Punch
 	if ((p_collision_event->getObject1()->getType() == "Bullet") ||
 		(p_collision_event->getObject2()->getType() == "Bullet") ||
+		(p_collision_event->getObject1()->getType() == "Whip") ||
+		(p_collision_event->getObject2()->getType() == "Whip") ||
 		(p_collision_event->getObject1()->getType() == "Punch") ||
 		(p_collision_event->getObject2()->getType() == "Punch")) {
 
@@ -155,8 +157,10 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 				df::EventView ev("Score", 100, true);
 				WM.onEvent(&ev);
 			}
-			// If Bandit collides with Punch
-			if ((p_collision_event->getObject1()->getType() == "Punch") ||
+			// If Bandit collides with Punch or Whip
+			if ((p_collision_event->getObject1()->getType() == "Whip") ||
+				(p_collision_event->getObject2()->getType() == "Whip") || 
+				(p_collision_event->getObject1()->getType() == "Punch") ||
 				(p_collision_event->getObject2()->getType() == "Punch")) {
 
 				// Increment score by 200 points
@@ -179,10 +183,13 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 			return;
 		}
 
+		// If bandit didn't die, still need to mark other object for delete
 		if ((p_collision_event->getObject1()->getType() == "Bullet") ||
+			(p_collision_event->getObject2()->getType() == "Whip") ||
 			(p_collision_event->getObject1()->getType() == "Punch"))
 			WM.markForDelete(p_collision_event->getObject1());
 		if ((p_collision_event->getObject2()->getType() == "Bullet") ||
+			(p_collision_event->getObject2()->getType() == "Whip") ||
 			(p_collision_event->getObject2()->getType() == "Punch"))
 			WM.markForDelete(p_collision_event->getObject2());
 	}

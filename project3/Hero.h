@@ -49,6 +49,7 @@ private:
 	void step();
 	void jump();
 	void punch(); // melee attack
+	void whip(); // whip attack
 	void fire(df::Vector target); // ranged attack
 	void mouse(const df::EventMouse *p_mouse_event);
 	void hit(const df::EventCollision *p_collision_event);
@@ -56,7 +57,7 @@ private:
 public:
 	Hero(bool character_choice);
 	~Hero();
-	bool punching; // is Hero punching currently
+	bool using_weapon; // is Hero punching currently
 
 	int eventHandler(const df::Event *p_e);
 	bool getLastMovement() const;

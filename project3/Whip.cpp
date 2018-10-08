@@ -2,23 +2,23 @@
 // Punch.cpp
 // 
 
-#include "Punch.h"
+#include "Whip.h"
 #include "LogManager.h"
 #include "WorldManager.h"
 #include "ResourceManager.h"
 #include "EventView.h"
 #include "EventStep.h"
 
-Punch::Punch(Hero *h) {
+Whip::Whip(Hero *h) {
 
 	// Set object type
-	setType("Punch");
+	setType("Whip");
 	this_hero = h;
 
 	if (this_hero->getLastMovement()) {
-		df::Sprite *p_temp_sprite = RM.getSprite("punch right");
+		df::Sprite *p_temp_sprite = RM.getSprite("whip right");
 		if (!p_temp_sprite) {
-			LM.writeLog("Punch::Punch(): Warning! Sprite '%s' not found", "punch right");
+			LM.writeLog("Whip::Whip(): Warning! Sprite '%s' not found", "whip right");
 		}
 		else {
 			setSprite(p_temp_sprite);
@@ -27,9 +27,9 @@ Punch::Punch(Hero *h) {
 		}
 	}
 	else {
-		df::Sprite *p_temp_sprite = RM.getSprite("punch left");
+		df::Sprite *p_temp_sprite = RM.getSprite("whip left");
 		if (!p_temp_sprite) {
-			LM.writeLog("Punch::Punch(): Warning! Sprite '%s' not found", "punch left");
+			LM.writeLog("Whip::Whip(): Warning! Sprite '%s' not found", "whip left");
 		}
 		else {
 			setSprite(p_temp_sprite);
@@ -40,7 +40,7 @@ Punch::Punch(Hero *h) {
 
 	float x_pos = this_hero->getPosition().getX();
 	float y_pos = this_hero->getPosition().getY();
-	df::Vector p(x_pos + 5, y_pos);
+	df::Vector p(x_pos + 5, y_pos - 1);
 	setPosition(p);
 
 	// Make the punch soft so can pass through hero
@@ -49,13 +49,13 @@ Punch::Punch(Hero *h) {
 	registerInterest(df::STEP_EVENT);
 }
 
-Punch::~Punch() {
+Whip::~Whip() {
 	if (this_hero->getLastMovement()) {
-		// Link to "sheriff right" sprite
+		// Link to "outlaw right" sprite
 		df::Sprite *p_temp_sprite;
-		p_temp_sprite = RM.getSprite("sheriff right");
+		p_temp_sprite = RM.getSprite("outlaw right");
 		if (!p_temp_sprite) {
-			LM.writeLog("Punch::~Punch(): Warning! Sprite '%s' not found", "sheriff right");
+			LM.writeLog("Whip::~Whip(): Warning! Sprite '%s' not found", "outlaw right");
 		}
 		else {
 			this_hero->setSprite(p_temp_sprite);
@@ -64,11 +64,11 @@ Punch::~Punch() {
 		}
 	}
 	else {
-		// Link to "sheriff left" sprite
+		// Link to "outlaw left" sprite
 		df::Sprite *p_temp_sprite;
-		p_temp_sprite = RM.getSprite("sheriff left");
+		p_temp_sprite = RM.getSprite("outlaw left");
 		if (!p_temp_sprite) {
-			LM.writeLog("Punch::~Punch(): Warning! Sprite '%s' not found", "sheriff left");
+			LM.writeLog("Whip::~Whip(): Warning! Sprite '%s' not found", "outlaw left");
 		}
 		else {
 			this_hero->setSprite(p_temp_sprite);
@@ -80,7 +80,7 @@ Punch::~Punch() {
 	this_hero->using_weapon = false;
 }
 
-int Punch::eventHandler(const df::Event *p_e) {
+int Whip::eventHandler(const df::Event *p_e) {
 	if (p_e->getType() == df::STEP_EVENT) {
 		step();
 		return 1;
@@ -96,7 +96,7 @@ int Punch::eventHandler(const df::Event *p_e) {
 	return 0;
 }
 
-void Punch::step() {
+void Whip::step() {
 
 	removal_countdown--;
 	if (removal_countdown < 0) {
@@ -105,35 +105,35 @@ void Punch::step() {
 	}
 
 	if (this_hero->getLastMovement()) {
-		df::Sprite *p_temp_sprite = RM.getSprite("punch right");
+		df::Sprite *p_temp_sprite = RM.getSprite("whip right");
 		if (!p_temp_sprite) {
-			LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "punch right");
+			LM.writeLog("Whip::step(): Warning! Sprite '%s' not found", "whip right");
 		}
 		else {
 			setSprite(p_temp_sprite);
 			setSpriteSlowdown(5);
 			setTransparency('#');
 		}
-		df::Vector p(this_hero->getPosition().getX() + 5, this_hero->getPosition().getY());
+		df::Vector p(this_hero->getPosition().getX() + 5, this_hero->getPosition().getY() - 1);
 		setPosition(p);
 	}
 	else {
-		df::Sprite *p_temp_sprite = RM.getSprite("punch left");
+		df::Sprite *p_temp_sprite = RM.getSprite("whip left");
 		if (!p_temp_sprite) {
-			LM.writeLog("Punch::step(): Warning! Sprite '%s' not found", "punch left");
+			LM.writeLog("Whip::step(): Warning! Sprite '%s' not found", "whip left");
 		}
 		else {
 			setSprite(p_temp_sprite);
 			setSpriteSlowdown(5);
 			setTransparency('#');
 		}
-		df::Vector p(this_hero->getPosition().getX() - 5, this_hero->getPosition().getY());
+		df::Vector p(this_hero->getPosition().getX() - 5, this_hero->getPosition().getY() - 1);
 		setPosition(p);
 	}
-	
+
 }
 
-void Punch::hit(const df::EventCollision *p_collision_event) {
+void Whip::hit(const df::EventCollision *p_collision_event) {
 	if ((p_collision_event->getObject1()->getType() == "Vulture") ||
 		(p_collision_event->getObject2()->getType() == "Vulture")) {
 		WM.markForDelete(p_collision_event->getObject1());
