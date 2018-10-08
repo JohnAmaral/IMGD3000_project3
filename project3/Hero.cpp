@@ -245,9 +245,16 @@ void Hero::step() {
 		}
 		bandit_score_to_reach += 250;
 		if (bandit_score_to_reach == 500) {
-			// Play sheriff taunt sound
-			df::Sound *p_sound = RM.getSound("sheriff taunt");
-			p_sound->play();
+			if (alignment) {
+				// Play sheriff taunt sound
+				df::Sound *p_sound = RM.getSound("sheriff taunt");
+				p_sound->play();
+			}
+			else {
+				// Play outlaw taunt sound
+				df::Sound *p_sound = RM.getSound("outlaw taunt");
+				p_sound->play();
+			}
 		}
 	}
 
@@ -476,11 +483,9 @@ void Hero::whip() {
 	Whip *p = new Whip(this);
 	using_weapon = true;
 
-	// Play whip sound
-	/*
-	df::Sound *p_sound = RM.getSound("whip");
-	p_sound->play();
-	*/
+	// Play "whip" sound.
+	df::Sound *v_sound = RM.getSound("whip");
+	v_sound->play();
 }
 
 void Hero::mouse(const df::EventMouse *p_mouse_event) {

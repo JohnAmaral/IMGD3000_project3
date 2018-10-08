@@ -28,6 +28,9 @@ GameOver::GameOver() {
 		time_to_live = p_temp_sprite->getFrameCount() * 15;
 	}
 
+	// Set altitude
+	setAltitude(4);
+
 	// Put message in center of window.
 	setLocation(df::CENTER_CENTER);
 

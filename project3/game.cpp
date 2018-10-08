@@ -9,8 +9,10 @@
  * game-over-sound.wav: MinigunFiend, January 22, 2013, from freesound.org
  * punch.wav: thefsoundman, April 21, 2011, from freesound.org
  * sheriff-hit.ogg: micahlg, December 10, 2017, from freesound.org
- * sheriff-taunt.wav: shawshank73, July 31, 2011, from freesound.org
+ * outlaw-taunt.wav: shawshank73, July 31, 2011, from freesound.org
  * sheriff-death.wav: AlineAudio, January 27, 2018, from freesound.org
+ * whip-wav: erkanozan, April 14, 2008, freesound.org
+ * sheriff-taunt.wav: shawshank73, July 31, 2011, from freesound.org
 */
 
 // Include statements.
@@ -115,7 +117,9 @@ void loadResources(void) {
 	RM.loadSound("sounds/punch.wav", "punch");
 	RM.loadSound("sounds/sheriff-hit.ogg", "sheriff hit");
 	RM.loadSound("sounds/sheriff-taunt.wav", "sheriff taunt");
+	RM.loadSound("sounds/outlaw-taunt.wav", "outlaw taunt");
 	RM.loadSound("sounds/sheriff-death.wav", "sheriff death");
+	RM.loadSound("sounds/whip.wav", "whip");
 
 	// Load music tracks
 	RM.loadMusic("sounds/title-music.wav", "title music");
