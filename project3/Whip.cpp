@@ -17,6 +17,7 @@ Whip::Whip(Hero *h, bool sideways) {
 	whippingbandits = sideways;
 	hit_slowdown = 2;
 	hit_countdown = hit_slowdown;
+	allowedToSetSprite = true;
 
 	if (this_hero->getLastMovement() && whippingbandits) {
 		df::Sprite *p_temp_sprite = RM.getSprite("whip right");
@@ -45,7 +46,7 @@ Whip::Whip(Hero *h, bool sideways) {
 		}
 		float x_pos = this_hero->getPosition().getX();
 		float y_pos = this_hero->getPosition().getY();
-		df::Vector p(x_pos - 8, y_pos - 1);
+		df::Vector p(x_pos - 9, y_pos - 1);
 		setPosition(p);
 	}
 	else if (this_hero->getLastMovement() && !whippingbandits) {
@@ -98,9 +99,12 @@ Whip::~Whip() {
 			LM.writeLog("Whip::~Whip(): Warning! Sprite '%s' not found", "outlaw right");
 		}
 		else {
-			this_hero->setSprite(p_temp_sprite);
-			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
-			this_hero->setTransparency(); // Transparent sprite
+			if (allowedToSetSprite) {
+				this_hero->setSprite(p_temp_sprite);
+				this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+				this_hero->setTransparency(); // Transparent sprite
+				this_hero->current_whip = NULL;
+			}
 		}
 	}
 	else {
@@ -111,9 +115,12 @@ Whip::~Whip() {
 			LM.writeLog("Whip::~Whip(): Warning! Sprite '%s' not found", "outlaw left");
 		}
 		else {
-			this_hero->setSprite(p_temp_sprite);
-			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
-			this_hero->setTransparency(); // Transparent sprite
+			if (allowedToSetSprite) {
+				this_hero->setSprite(p_temp_sprite);
+				this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+				this_hero->setTransparency(); // Transparent sprite
+				this_hero->current_whip = NULL;
+			}
 		}
 	}
 
@@ -175,7 +182,7 @@ void Whip::step() {
 		}
 		float x_pos = this_hero->getPosition().getX();
 		float y_pos = this_hero->getPosition().getY();
-		df::Vector p(x_pos - 8, y_pos - 1);
+		df::Vector p(x_pos - 9, y_pos - 1);
 		setPosition(p);
 	}
 	else if (this_hero->getLastMovement() && !whippingbandits) {
@@ -228,7 +235,7 @@ void Whip::hit(const df::EventCollision *p_collision_event) {
 		v_sound->play();
 
 		// Increment score by 100 points
-		df::EventView ev("Score", 100, true);
+		df::EventView ev("Score", 50, true);
 		WM.onEvent(&ev);
 	}
 }

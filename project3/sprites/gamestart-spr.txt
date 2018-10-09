@@ -1,6 +1,6 @@
 frames 2
 width 70
-height 24
+height 25
 color white
        ____                                                           
       / __ \                       __         _____   __   __         
@@ -17,7 +17,8 @@ color white
       /______/\__,_/\___/__/ /__/\__,_/_/   \____/\____/____/         
                                                                       
             Controls: 'a'/'d' moves, Space jumps, 'q' quits           
-      Left Mouse Button: punch or whip, Right Mouse Button: shoot     
+              Sheriff: left click punch, right click shoot            
+          Outlaw: left click whip sideways, right click whip up       
                                                                       
  _|\/|_             Press 's' to play the sheriff           ___ _|\/|_
   (  ) _____        Press 'o' to play the outlaw           / _ \ (<<) 
@@ -42,7 +43,8 @@ end
       /______/\__,_/\___/__/ /__/\__,_/_/   \____/\____/____/         
                                                                       
             Controls: 'a'/'d' moves, Space jumps, 'q' quits           
-      Left Mouse Button: punch or whip, Right Mouse Button: shoot     
+              Sheriff: left click punch, right click shoot            
+          Outlaw: left click whip sideways, right click whip up       
                                                                       
  _|\/|_                                                     ___ _|\/|_
   (  ) _____                                               / _ \ (<<) 

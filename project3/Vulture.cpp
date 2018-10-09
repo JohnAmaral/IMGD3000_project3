@@ -9,6 +9,8 @@
 #include "EventCollision.h"
 #include "EventView.h"
 #include "Skull.h"
+#include "Whip.h"
+#include "Punch.h"
 
 // Constructor
 Vulture::Vulture() {
@@ -143,6 +145,33 @@ void Vulture::hit(const df::EventCollision *p_collision_event) {
 		(p_collision_event->getObject2()->getType() == "Whip") ||
 		(p_collision_event->getObject1()->getType() == "Punch") ||
 		(p_collision_event->getObject2()->getType() == "Punch")) {
+
+		if (p_collision_event->getObject1()->getType() == "Whip") {
+
+			bool invincible = dynamic_cast <Whip *> (p_collision_event->getObject1())->isInvincible();
+			if (invincible) {
+				return;
+			}
+		}
+		if (p_collision_event->getObject2()->getType() == "Whip") {
+			bool invincible = dynamic_cast <Whip *> (p_collision_event->getObject2())->isInvincible();
+			if (invincible) {
+				return;
+			}
+		}
+		if (p_collision_event->getObject1()->getType() == "Punch") {
+
+			bool invincible = dynamic_cast <Punch *> (p_collision_event->getObject1())->isInvincible();
+			if (invincible) {
+				return;
+			}
+		}
+		if (p_collision_event->getObject2()->getType() == "Punch") {
+			bool invincible = dynamic_cast <Punch *> (p_collision_event->getObject2())->isInvincible();
+			if (invincible) {
+				return;
+			}
+		}
 
 		// Play "vulture death" sound.
 		df::Sound *v_sound = RM.getSound("vulture death");

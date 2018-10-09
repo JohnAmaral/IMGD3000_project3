@@ -4,8 +4,6 @@
 
 #include "Hero.h"
 #include "Bullet.h"
-#include "Punch.h"
-#include "Whip.h"
 #include "LogManager.h"
 #include "GameManager.h"
 #include "WorldManager.h"
@@ -99,9 +97,19 @@ Hero::Hero(bool character_choice) {
 	// Create reticle for shooting
 	p_reticle = new Reticle();
 	p_reticle->draw();
+
+	current_punch = NULL;
+	current_whip = NULL;
 }
 
 Hero::~Hero() {
+	if (current_punch != NULL) {
+		current_punch->allowedToSetSprite = false;
+	}
+	if (current_whip != NULL) {
+		current_whip->allowedToSetSprite = false;
+	}
+
 	GameOver *p_go = new GameOver();
 
 	// Mark reticle for deletion
@@ -421,12 +429,7 @@ void Hero::fire(df::Vector target) {
 	v.normalize();
 
 	// Makes the outlaws gun a little slower
-	if (alignment) {
-		v.scale(1);
-	}
-	else {
-		v.scale(0.75);
-	}
+	v.scale(1);
 	
 	Bullet *p = new Bullet(getPosition());
 	p->setVelocity(v);
@@ -455,6 +458,7 @@ void Hero::punch() {
 	}
 
 	Punch *p = new Punch(this);
+	this->current_punch = p;
 	using_weapon = true;
 
 	// Play punch sound
@@ -482,9 +486,11 @@ void Hero::whip(bool sideways) {
 
 	if (sideways) {
 		Whip *p = new Whip(this, true);
+		current_whip = p;
 	}
 	else {
 		Whip *p = new Whip(this, false);
+		current_whip = p;
 	}
 	
 	using_weapon = true;

@@ -24,6 +24,7 @@ private:
 public:
 	Whip(Hero *h, bool sideways);
 	~Whip();
+	bool allowedToSetSprite;
 	int eventHandler(const df::Event *p_e);
 	bool isInvincible() const;
 };

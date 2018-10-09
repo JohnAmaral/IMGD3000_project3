@@ -53,7 +53,7 @@ void Bullet::out() {
 	WM.markForDelete(this);
 }
 
-// If bullet hits Vulture, mark saucer and bullet for deletion
+// If bullet hits Vulture, mark vulture and bullet for deletion
 void Bullet::hit(const df::EventCollision *p_collision_event) {
 	
 	// If Bullet hits Vulture

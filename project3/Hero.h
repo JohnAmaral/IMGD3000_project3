@@ -12,6 +12,9 @@
 #include "EventCollision.h"
 #include "ViewObject.h"
 
+class Punch;
+class Whip;
+
 class Hero : public df::Object {
 
 private:
@@ -58,6 +61,9 @@ public:
 	Hero(bool character_choice);
 	~Hero();
 	bool using_weapon; // is Hero punching currently
+
+	Punch *current_punch;
+	Whip *current_whip;
 
 	int eventHandler(const df::Event *p_e);
 	bool getLastMovement() const;

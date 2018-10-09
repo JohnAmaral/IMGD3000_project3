@@ -16,6 +16,7 @@ Punch::Punch(Hero *h) {
 	this_hero = h;
 	hit_slowdown = 2;
 	hit_countdown = hit_slowdown;
+	allowedToSetSprite = true;
 
 	if (this_hero->getLastMovement()) {
 		df::Sprite *p_temp_sprite = RM.getSprite("punch right");
@@ -64,9 +65,12 @@ Punch::~Punch() {
 			LM.writeLog("Punch::~Punch(): Warning! Sprite '%s' not found", "sheriff right");
 		}
 		else {
-			this_hero->setSprite(p_temp_sprite);
-			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
-			this_hero->setTransparency(); // Transparent sprite
+			if (allowedToSetSprite) {
+				this_hero->setSprite(p_temp_sprite);
+				this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+				this_hero->setTransparency(); // Transparent sprite
+				this_hero->current_punch = NULL;
+			}
 		}
 	}
 	else {
@@ -77,9 +81,12 @@ Punch::~Punch() {
 			LM.writeLog("Punch::~Punch(): Warning! Sprite '%s' not found", "sheriff left");
 		}
 		else {
-			this_hero->setSprite(p_temp_sprite);
-			this_hero->setSpriteSlowdown(3); // 1/3 speed animation
-			this_hero->setTransparency(); // Transparent sprite
+			if (allowedToSetSprite) {
+				this_hero->setSprite(p_temp_sprite);
+				this_hero->setSpriteSlowdown(3); // 1/3 speed animation
+				this_hero->setTransparency(); // Transparent sprite
+				this_hero->current_punch = NULL;
+			}
 		}
 	}
 

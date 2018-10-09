@@ -10,8 +10,6 @@
 #include <stdlib.h> // Used for rand() call in moveToStart()
 #include "EventView.h"
 #include "Skull.h"
-#include "Whip.h"
-#include "Punch.h"
 
 // Constructor
 Bandit::Bandit() {
@@ -181,16 +179,16 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 
 			// If Bandit collides with Bullet
 			if ((p_collision_event->getObject1()->getType() == "Bullet") ||
-				(p_collision_event->getObject2()->getType() == "Bullet")) {
+				(p_collision_event->getObject2()->getType() == "Bullet") ||
+				(p_collision_event->getObject1()->getType() == "Whip") ||
+				(p_collision_event->getObject2()->getType() == "Whip")) {
 
 				// Increment score by 100 points
 				df::EventView ev("Score", 100, true);
 				WM.onEvent(&ev);
 			}
 			// If Bandit collides with Punch or Whip
-			if ((p_collision_event->getObject1()->getType() == "Whip") ||
-				(p_collision_event->getObject2()->getType() == "Whip") || 
-				(p_collision_event->getObject1()->getType() == "Punch") ||
+			if ((p_collision_event->getObject1()->getType() == "Punch") ||
 				(p_collision_event->getObject2()->getType() == "Punch")) {
 
 				// Increment score by 200 points

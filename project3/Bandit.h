@@ -7,6 +7,8 @@
 // Include statements.
 #include "Enemy.h"
 #include "EventCollision.h"
+#include "Whip.h"
+#include "Punch.h"
 
 class Bandit : public Enemy {
 

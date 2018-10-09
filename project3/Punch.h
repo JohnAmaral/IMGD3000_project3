@@ -23,6 +23,7 @@ private:
 public:
 	Punch(Hero *h);
 	~Punch();
+	bool allowedToSetSprite;
 	int eventHandler(const df::Event *p_e);
 	bool isInvincible() const;
 };
