@@ -43,8 +43,12 @@ Punch::Punch(Hero *h) {
 	df::Vector p(x_pos + 5, y_pos);
 	setPosition(p);
 
+	// Set as same altitude as hero
+	setAltitude(3);
+
 	// Make the punch soft so can pass through hero
 	setSolidness(df::SOFT);
+
 	removal_countdown = 15;
 	registerInterest(df::STEP_EVENT);
 }

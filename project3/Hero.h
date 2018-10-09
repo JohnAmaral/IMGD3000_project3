@@ -49,7 +49,7 @@ private:
 	void step();
 	void jump();
 	void punch(); // melee attack
-	void whip(); // whip attack
+	void whip(bool sideways); // whip attack
 	void fire(df::Vector target); // ranged attack
 	void mouse(const df::EventMouse *p_mouse_event);
 	void hit(const df::EventCollision *p_collision_event);

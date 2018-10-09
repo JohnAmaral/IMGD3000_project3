@@ -9,13 +9,14 @@
 #include "EventView.h"
 #include "EventStep.h"
 
-Whip::Whip(Hero *h) {
+Whip::Whip(Hero *h, bool sideways) {
 
 	// Set object type
 	setType("Whip");
 	this_hero = h;
+	whippingbandits = sideways;
 
-	if (this_hero->getLastMovement()) {
+	if (this_hero->getLastMovement() && whippingbandits) {
 		df::Sprite *p_temp_sprite = RM.getSprite("whip right");
 		if (!p_temp_sprite) {
 			LM.writeLog("Whip::Whip(): Warning! Sprite '%s' not found", "whip right");
@@ -25,8 +26,12 @@ Whip::Whip(Hero *h) {
 			setSpriteSlowdown(5);
 			setTransparency('#');
 		}
+		float x_pos = this_hero->getPosition().getX();
+		float y_pos = this_hero->getPosition().getY();
+		df::Vector p(x_pos + 8, y_pos - 1);
+		setPosition(p);
 	}
-	else {
+	else if (!this_hero->getLastMovement() && whippingbandits) {
 		df::Sprite *p_temp_sprite = RM.getSprite("whip left");
 		if (!p_temp_sprite) {
 			LM.writeLog("Whip::Whip(): Warning! Sprite '%s' not found", "whip left");
@@ -36,15 +41,48 @@ Whip::Whip(Hero *h) {
 			setSpriteSlowdown(5);
 			setTransparency('#');
 		}
+		float x_pos = this_hero->getPosition().getX();
+		float y_pos = this_hero->getPosition().getY();
+		df::Vector p(x_pos - 8, y_pos - 1);
+		setPosition(p);
+	}
+	else if (this_hero->getLastMovement() && !whippingbandits) {
+		df::Sprite *p_temp_sprite = RM.getSprite("whip up right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Whip::Whip(): Warning! Sprite '%s' not found", "whip up right");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(5);
+			setTransparency('#');
+		}
+		float x_pos = this_hero->getPosition().getX();
+		float y_pos = this_hero->getPosition().getY();
+		df::Vector p(x_pos + 2, y_pos - 4);
+		setPosition(p);
+	}
+	else {
+		df::Sprite *p_temp_sprite = RM.getSprite("whip up left");
+		if (!p_temp_sprite) {
+			LM.writeLog("Whip::Whip(): Warning! Sprite '%s' not found", "whip up left");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(5);
+			setTransparency('#');
+		}
+		float x_pos = this_hero->getPosition().getX();
+		float y_pos = this_hero->getPosition().getY();
+		df::Vector p(x_pos - 2, y_pos - 4);
+		setPosition(p);
 	}
 
-	float x_pos = this_hero->getPosition().getX();
-	float y_pos = this_hero->getPosition().getY();
-	df::Vector p(x_pos + 5, y_pos - 1);
-	setPosition(p);
+	// Set as same altitude as hero
+	setAltitude(3);
 
 	// Make the punch soft so can pass through hero
 	setSolidness(df::SOFT);
+
 	removal_countdown = 15;
 	registerInterest(df::STEP_EVENT);
 }
@@ -104,7 +142,7 @@ void Whip::step() {
 		return;
 	}
 
-	if (this_hero->getLastMovement()) {
+	if (this_hero->getLastMovement() && whippingbandits) {
 		df::Sprite *p_temp_sprite = RM.getSprite("whip right");
 		if (!p_temp_sprite) {
 			LM.writeLog("Whip::step(): Warning! Sprite '%s' not found", "whip right");
@@ -114,10 +152,12 @@ void Whip::step() {
 			setSpriteSlowdown(5);
 			setTransparency('#');
 		}
-		df::Vector p(this_hero->getPosition().getX() + 5, this_hero->getPosition().getY() - 1);
+		float x_pos = this_hero->getPosition().getX();
+		float y_pos = this_hero->getPosition().getY();
+		df::Vector p(x_pos + 8, y_pos - 1);
 		setPosition(p);
 	}
-	else {
+	else if (!this_hero->getLastMovement() && whippingbandits) {
 		df::Sprite *p_temp_sprite = RM.getSprite("whip left");
 		if (!p_temp_sprite) {
 			LM.writeLog("Whip::step(): Warning! Sprite '%s' not found", "whip left");
@@ -127,7 +167,39 @@ void Whip::step() {
 			setSpriteSlowdown(5);
 			setTransparency('#');
 		}
-		df::Vector p(this_hero->getPosition().getX() - 5, this_hero->getPosition().getY() - 1);
+		float x_pos = this_hero->getPosition().getX();
+		float y_pos = this_hero->getPosition().getY();
+		df::Vector p(x_pos - 8, y_pos - 1);
+		setPosition(p);
+	}
+	else if (this_hero->getLastMovement() && !whippingbandits) {
+		df::Sprite *p_temp_sprite = RM.getSprite("whip up right");
+		if (!p_temp_sprite) {
+			LM.writeLog("Whip::Whip(): Warning! Sprite '%s' not found", "whip up right");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(5);
+			setTransparency('#');
+		}
+		float x_pos = this_hero->getPosition().getX();
+		float y_pos = this_hero->getPosition().getY();
+		df::Vector p(x_pos + 2, y_pos - 4);
+		setPosition(p);
+	}
+	else {
+		df::Sprite *p_temp_sprite = RM.getSprite("whip up left");
+		if (!p_temp_sprite) {
+			LM.writeLog("Whip::Whip(): Warning! Sprite '%s' not found", "whip up left");
+		}
+		else {
+			setSprite(p_temp_sprite);
+			setSpriteSlowdown(5);
+			setTransparency('#');
+		}
+		float x_pos = this_hero->getPosition().getX();
+		float y_pos = this_hero->getPosition().getY();
+		df::Vector p(x_pos - 2, y_pos - 4);
 		setPosition(p);
 	}
 

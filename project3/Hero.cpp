@@ -462,7 +462,7 @@ void Hero::punch() {
 	p_sound->play();
 }
 
-void Hero::whip() {
+void Hero::whip(bool sideways) {
 	if (melee_countdown > 0) {
 		return;
 	}
@@ -480,7 +480,13 @@ void Hero::whip() {
 		setTransparency(); // Transparent sprite
 	}
 
-	Whip *p = new Whip(this);
+	if (sideways) {
+		Whip *p = new Whip(this, true);
+	}
+	else {
+		Whip *p = new Whip(this, false);
+	}
+	
 	using_weapon = true;
 
 	// Play "whip" sound.
@@ -497,14 +503,19 @@ void Hero::mouse(const df::EventMouse *p_mouse_event) {
 			punch();
 		}
 		else {
-			whip();
+			whip(true);
 		}
 	}
 
 	// Pressed right button?
 	if ((p_mouse_event->getMouseAction() == df::CLICKED) &&
 		(p_mouse_event->getMouseButton() == df::Mouse::RIGHT)) {
-		fire(p_mouse_event->getMousePosition());
+		if (alignment) {
+			fire(p_mouse_event->getMousePosition());
+		}
+		else {
+			whip(false);
+		}
 	}
 }
 

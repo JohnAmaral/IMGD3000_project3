@@ -1,0 +1,15 @@
+frames 1
+width 3
+height 9
+color yellow
+/\ 
+\ |
+  |
+  |
+  |
+##|
+##|
+#/ 
+/  
+end
+eof

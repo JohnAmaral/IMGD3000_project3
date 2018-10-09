@@ -102,6 +102,12 @@ void loadResources(void) {
 	// Load whip left sprite
 	RM.loadSprite("sprites/whip-left-spr.txt", "whip left");
 
+	// Load whip up right sprite
+	RM.loadSprite("sprites/whip-up-right-spr.txt", "whip up right");
+
+	// Load whip up left sprite
+	RM.loadSprite("sprites/whip-up-left-spr.txt", "whip up left");
+
 	// Load cactus sprite
 	RM.loadSprite("sprites/cactus-spr.txt", "cactus");
 
