@@ -14,6 +14,8 @@ Punch::Punch(Hero *h) {
 	// Set object type
 	setType("Punch");
 	this_hero = h;
+	hit_slowdown = 2;
+	hit_countdown = hit_slowdown;
 
 	if (this_hero->getLastMovement()) {
 		df::Sprite *p_temp_sprite = RM.getSprite("punch right");
@@ -108,6 +110,10 @@ void Punch::step() {
 		return;
 	}
 
+	if (hit_countdown != 0) {
+		hit_countdown--;
+	}
+
 	if (this_hero->getLastMovement()) {
 		df::Sprite *p_temp_sprite = RM.getSprite("punch right");
 		if (!p_temp_sprite) {
@@ -138,8 +144,14 @@ void Punch::step() {
 }
 
 void Punch::hit(const df::EventCollision *p_collision_event) {
+	
 	if ((p_collision_event->getObject1()->getType() == "Vulture") ||
 		(p_collision_event->getObject2()->getType() == "Vulture")) {
+
+		if (hit_countdown > 0) {
+			return;
+		}
+
 		WM.markForDelete(p_collision_event->getObject1());
 		WM.markForDelete(p_collision_event->getObject2());
 
@@ -150,5 +162,14 @@ void Punch::hit(const df::EventCollision *p_collision_event) {
 		// Increment score by 100 points
 		df::EventView ev("Score", 100, true);
 		WM.onEvent(&ev);
+	}
+}
+
+bool Punch::isInvincible() const {
+	if (hit_countdown > 0) {
+		return true;
+	}
+	else {
+		return false;
 	}
 }

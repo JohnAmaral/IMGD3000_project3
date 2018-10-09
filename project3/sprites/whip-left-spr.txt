@@ -2,8 +2,8 @@ frames 1
 width 15
 height 3
 color yellow
-/\           ##
+/\#############
 \_____________#
-              \
+##############\
 end
 eof

@@ -10,6 +10,8 @@
 #include <stdlib.h> // Used for rand() call in moveToStart()
 #include "EventView.h"
 #include "Skull.h"
+#include "Whip.h"
+#include "Punch.h"
 
 // Constructor
 Bandit::Bandit() {
@@ -138,6 +140,34 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 		(p_collision_event->getObject1()->getType() == "Punch") ||
 		(p_collision_event->getObject2()->getType() == "Punch")) {
 
+		if (p_collision_event->getObject1()->getType() == "Whip") {
+
+			bool invincible = dynamic_cast <Whip *> (p_collision_event->getObject1())->isInvincible();
+			if (invincible) {
+				return;
+			}
+		}
+		if (p_collision_event->getObject2()->getType() == "Whip") {
+			bool invincible = dynamic_cast <Whip *> (p_collision_event->getObject2())->isInvincible();
+			if (invincible) {
+				return;
+			}
+		}
+		if (p_collision_event->getObject1()->getType() == "Punch") {
+
+			bool invincible = dynamic_cast <Punch *> (p_collision_event->getObject1())->isInvincible();
+			if (invincible) {
+				return;
+			}
+		}
+		if (p_collision_event->getObject2()->getType() == "Punch") {
+			bool invincible = dynamic_cast <Punch *> (p_collision_event->getObject2())->isInvincible();
+			if (invincible) {
+				return;
+			}
+		}
+		
+
 		// Decrement health count by 1
 		health_count -= 1;
 
@@ -185,7 +215,7 @@ void Bandit::hit(const df::EventCollision *p_collision_event) {
 
 		// If bandit didn't die, still need to mark other object for delete
 		if ((p_collision_event->getObject1()->getType() == "Bullet") ||
-			(p_collision_event->getObject2()->getType() == "Whip") ||
+			(p_collision_event->getObject1()->getType() == "Whip") ||
 			(p_collision_event->getObject1()->getType() == "Punch"))
 			WM.markForDelete(p_collision_event->getObject1());
 		if ((p_collision_event->getObject2()->getType() == "Bullet") ||

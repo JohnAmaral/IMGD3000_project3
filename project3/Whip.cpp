@@ -15,6 +15,8 @@ Whip::Whip(Hero *h, bool sideways) {
 	setType("Whip");
 	this_hero = h;
 	whippingbandits = sideways;
+	hit_slowdown = 2;
+	hit_countdown = hit_slowdown;
 
 	if (this_hero->getLastMovement() && whippingbandits) {
 		df::Sprite *p_temp_sprite = RM.getSprite("whip right");
@@ -142,6 +144,10 @@ void Whip::step() {
 		return;
 	}
 
+	if (hit_countdown != 0) {
+		hit_countdown--;
+	}
+
 	if (this_hero->getLastMovement() && whippingbandits) {
 		df::Sprite *p_temp_sprite = RM.getSprite("whip right");
 		if (!p_temp_sprite) {
@@ -206,8 +212,14 @@ void Whip::step() {
 }
 
 void Whip::hit(const df::EventCollision *p_collision_event) {
+	
 	if ((p_collision_event->getObject1()->getType() == "Vulture") ||
 		(p_collision_event->getObject2()->getType() == "Vulture")) {
+
+		if (hit_countdown > 0) {
+			return;
+		}
+
 		WM.markForDelete(p_collision_event->getObject1());
 		WM.markForDelete(p_collision_event->getObject2());
 
@@ -218,5 +230,14 @@ void Whip::hit(const df::EventCollision *p_collision_event) {
 		// Increment score by 100 points
 		df::EventView ev("Score", 100, true);
 		WM.onEvent(&ev);
+	}
+}
+
+bool Whip::isInvincible() const {
+	if (hit_countdown > 0) {
+		return true;
+	}
+	else {
+		return false;
 	}
 }

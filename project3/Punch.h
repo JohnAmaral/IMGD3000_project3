@@ -13,6 +13,8 @@ class Punch : public df::Object {
 
 private:
 	int removal_countdown;
+	int hit_slowdown;
+	int hit_countdown;
 	Hero *this_hero;
 
 	void step();
@@ -22,6 +24,7 @@ public:
 	Punch(Hero *h);
 	~Punch();
 	int eventHandler(const df::Event *p_e);
+	bool isInvincible() const;
 };
 
 #endif // !__PUNCH_H__
